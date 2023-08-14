@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.uade.ianews;
 
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +19,7 @@ public class DemoApplication {
         //Lee una pagina en particular
         System.out.println(singlePageReader("https://www.telam.com.ar/notas/202307/633615-bullrich-critica-cifra-desaparecidos.html"));
     }
+
 
     public static String singlePageReader(String urlAddress) {
         try {
