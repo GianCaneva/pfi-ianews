@@ -1,20 +1,20 @@
 package com.uade.ianews;
 
+import com.uade.ianews.dto.News;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Main {
+public class KeyWords {
 
-    public static void main(String[] args) {
-        System.out.println(chatGPT("hola como andas?"));
-        // Prints out a response to the question.
-    }
 
-    public static String chatGPT(String message) {
+    public static List<String> getKeyWords(String message) {
         String url = "https://api.openai.com/v1/chat/completions";
         String apiKey = "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"; // API key goes here
         String model = "gpt-3.5-turbo"; // current model of chatgpt api
@@ -49,11 +49,34 @@ public class Main {
             in.close();
 
             // returns the extracted contents of the response.
-            return extractContentFromResponse(response.toString());
+            String responseRaw = extractContentFromResponse(response.toString());
+
+            return standardizeResponse(responseRaw);
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<String> standardizeResponse(String responseRaw) {
+        String[] elements = responseRaw.split(",");
+        List<String> result = new ArrayList<>();
+
+        for (String element : elements) {
+            String upperCaseElement = element.toUpperCase();
+
+            String replaceLetterA = upperCaseElement.replace("Á", "A");
+            String replaceLetterE = replaceLetterA.replace("É", "E");
+            String replaceLetterI = replaceLetterE.replace("Í", "I");
+            String replaceLetterO = replaceLetterI.replace("Ó", "O");
+            String replaceLetterU = replaceLetterO.replace("Ú", "U");
+
+            String trimmedElement = replaceLetterU.trim();
+            result.add(trimmedElement);
+        }
+        return result;
+
     }
 
     // This method extracts the response expected from chatgpt and returns it.

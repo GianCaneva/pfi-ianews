@@ -22,7 +22,7 @@ public class WebScrapper {
         }
 
     }
-    //
+
 
     private static News scrapperClarin(String url) throws IOException {
         Document document = Jsoup.connect(url).get();
