@@ -22,7 +22,7 @@ public class ComparisonAlgorithmTest extends TestCase {
         List<String> keywords5 = new LinkedList<String>(Arrays.asList("X", "Y", "Z", "J", "Q"));
         List<String> keywords3 = new LinkedList<String>(Arrays.asList("A", "gabinete Económico", "C", "PASO", "medidas"));
         List<String> keywords4 = new LinkedList<String>(Arrays.asList("A", "B", "C", "D", "E"));
-        List<String> keywords6 = new LinkedList<String>(Arrays.asList("A", "B", "C", "D", "E"));
+        List<String> keywords6 = new LinkedList<String>(Arrays.asList("E", "A", "F", "D", "B"));
         News news1 = News.builder().keywords(keywords1).build();
         News news2 = News.builder().keywords(keywords2).build();
         News news3 = News.builder().keywords(keywords3).build();
@@ -34,12 +34,25 @@ public class ComparisonAlgorithmTest extends TestCase {
 
         List<List<News>> sameNews = ComparisonAlgorithm.identifySameNews(allNews);
 
-        assertThat(sameNews.size()).isEqualTo(1);
-
+        assertThat(sameNews.size()).isEqualTo(2);
+        assertThat(sameNews.get(0).size()).isEqualTo(2);
+        assertThat(sameNews.get(1).size()).isEqualTo(3);
     }
 
     @Test
     public void givenMultiplesNewsThereAreNotSimilarOnes() {
+        List<String> keywords1 = new LinkedList<String>(Arrays.asList("Sergio Massa", "gabinete Económico", "ministro", "PASO", "medidas"));
+        List<String> keywords2 = new LinkedList<String>(Arrays.asList("X", "Y", "Z", "J", "Q"));
+        List<String> keywords3 = new LinkedList<String>(Arrays.asList("A", "B", "C", "D", "E"));
+        News news1 = News.builder().keywords(keywords1).build();
+        News news2 = News.builder().keywords(keywords2).build();
+        News news3 = News.builder().keywords(keywords3).build();
+
+        List<News> allNews= new LinkedList<News>(Arrays.asList(news1, news2, news3));
+
+        List<List<News>> sameNews = ComparisonAlgorithm.identifySameNews(allNews);
+
+        assertThat(sameNews.size()).isEqualTo(0);
 
     }
 
