@@ -16,30 +16,30 @@ public class ComparisonAlgorithm {
             List<News> siblingNews = new LinkedList<News>();
             News currentNews = allNews.get(i);
             List<String> keywordsFirst1 = currentNews.getKeywords();
-            for (int j=1; j<allNews.size()-i; j++){
-                News comparisonNews = allNews.get(i+1);
+            for (int j=0; j<allNews.size(); j++){
+                if (allNews.get(i).equals(allNews.get(j))){
+                    continue;
+                }
+                News comparisonNews = allNews.get(j);
                 List<String> keywordsSecond2 = comparisonNews.getKeywords();
 
                 for (int x=0; x<keywordsFirst1.size(); x++){
                     String keywords1 = keywordsFirst1.get(x);
-                    for (int y=0; y<keywordsSecond2.size(); y++){
-                        String keywords2 = keywordsFirst1.get(y);
-                        if (keywords1.equals(keywords2)){
-                            matches++;
-                            if (matches == 3){
-                                //currentNews.addSameNews(comparisonNews);
-                                siblingNews.add(comparisonNews);
-                                allNews.remove(comparisonNews);
-                            }
-                            break;
+                    if (keywordsSecond2.contains(keywords1)){
+                        matches++;
+                        if (matches == 3){
+                            //currentNews.addSameNews(comparisonNews);
+                            siblingNews.add(comparisonNews);
+                            allNews.remove(comparisonNews);
                         }
+                        continue;
                     }
                 }
-
+                matches = 0;
             }
-            matches = 0;
             if (!siblingNews.isEmpty()){
                 siblingNews.add(currentNews);
+                allNews.remove(currentNews);
                 matchNews.add(siblingNews);
             }
 
