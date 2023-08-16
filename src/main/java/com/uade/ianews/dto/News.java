@@ -24,4 +24,7 @@ public class News {
         sameNews.add(newNews);
     }
 
+    public void setArticle(StringBuilder article) {
+        this.article = String.valueOf(article);
+    }
 }

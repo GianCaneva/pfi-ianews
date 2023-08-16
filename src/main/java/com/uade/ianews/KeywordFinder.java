@@ -1,32 +1,23 @@
 package com.uade.ianews;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 
 public class KeywordFinder {
 
-    public static List<String>  getKeyWords2(String message) {
+    public static List<String> getKeyWords(String message) {
         String apiKey = "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";
 
         try {
@@ -38,7 +29,7 @@ public class KeywordFinder {
             connection.setDoOutput(true);
 
             String messageWithoutQuotes = message.replace("\"", "");
-            String prompt = "Devolver sin numerar separado por comas las 5 palabras claves mas importantes de esta noticia: " + messageWithoutQuotes ;
+            String prompt = "Devolver sin numerar y separado por comas,las 5 palabras claves mas importantes de esta noticia: " + messageWithoutQuotes ;
             String data = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 100}";
 
             try (OutputStream os = connection.getOutputStream()) {
@@ -59,10 +50,15 @@ public class KeywordFinder {
                 // Parse the JSON response to extract the generated text
                 String jsonResponse = response.toString();
                 String generatedText = extractGeneratedTextFromJson(jsonResponse);
-                System.out.println("Generated Text: " + standardizeResponse(generatedText));
                 connection.disconnect();
-                List<String> strings = standardizeResponse(generatedText);
-                return strings;
+                List<String> cleanResponse = standardizeResponse(generatedText);
+                System.out.println("Generated Text RAW: " + generatedText);
+                if (cleanResponse.size()>5){
+                    List<String> first5Elements = cleanResponse.subList(0, 5);
+                    cleanResponse = first5Elements;
+                }
+                System.out.println("Generated Text SHORT: " + cleanResponse);
+                return cleanResponse;
 
             } else {
                 System.out.println("Request failed with response code: " + responseCode);
@@ -92,8 +88,12 @@ public class KeywordFinder {
 
 
     public static List<String> standardizeResponse(String responseRaw) {
-        String responseRawWithoutDots = responseRaw.replace(".", "");
-        String[] elements = responseRawWithoutDots.split(",");
+        String responseWithoutSpaces = responseRaw.trim();
+        String commaGranted = responseWithoutSpaces.replace(" ", ",");
+        String removeDots = commaGranted.replace(".", "");
+        String removeEnters = removeDots.replace("\n\n",",");
+        String removeDobleComma = removeEnters.replace(",,", ",");
+        String[] elements = removeDobleComma.split(",");
         List<String> result = new ArrayList<>();
 
         for (String element : elements) {
@@ -108,6 +108,10 @@ public class KeywordFinder {
             String trimmedElement = replaceLetterU.trim();
             result.add(trimmedElement);
         }
+        //REMOVING PREOPSICIONES
+        result.remove("DE");
+        result.remove("LA");
+        result.remove("LAS");
         return result;
 
     }

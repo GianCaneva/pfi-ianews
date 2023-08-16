@@ -7,6 +7,9 @@ import java.util.List;
 
 public class ComparisonAlgorithm {
 
+    // todo mejorar esto con datos reales
+    public static final int AMOUNT_OF_SAME_WORDS_TO_DETECT_SIMILARITY = 2;
+
     public static List<List<News>> identifySameNews(List<News> allNews){
         List<List<News>> matchNews = new LinkedList<>();
 
@@ -27,7 +30,7 @@ public class ComparisonAlgorithm {
                     String keywords1 = keywordsFirst1.get(x);
                     if (keywordsSecond2.contains(keywords1)){
                         matches++;
-                        if (matches == 3){
+                        if (matches == AMOUNT_OF_SAME_WORDS_TO_DETECT_SIMILARITY){
                             //currentNews.addSameNews(comparisonNews);
                             siblingNews.add(comparisonNews);
                             allNews.remove(comparisonNews);
