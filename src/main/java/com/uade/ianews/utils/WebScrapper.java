@@ -1,4 +1,4 @@
-package com.uade.ianews;
+package com.uade.ianews.utils;
 import com.uade.ianews.dto.News;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

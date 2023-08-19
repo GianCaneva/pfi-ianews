@@ -1,4 +1,4 @@
-package com.uade.ianews;
+package com.uade.ianews.utils;
 
 import java.io.IOException;
 

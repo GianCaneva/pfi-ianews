@@ -1,6 +1,7 @@
 package com.uade.ianews;
 
 import com.uade.ianews.dto.News;
+import com.uade.ianews.utils.*;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -30,8 +31,22 @@ public class NewsGenerationService {
             allNewsWithInfo.add(newsWithInformationFromPagAndKeyWords);
         }
         //Match same news
-        List<List<News>> lists = ComparisonAlgorithm.identifySameNews(allNewsWithInfo);
+        List<List<News>> allSiblingNews = ComparisonAlgorithm.identifySameNews(allNewsWithInfo);
         String h="hola";
+        //todo guardar lists en base de datos
+        //Summarize same news
+        for(int i = 0; i<allSiblingNews.size();i++){
+            StringBuilder mergeSiblingArticles = new StringBuilder();
+            List<News> siblings = allSiblingNews.get(i);
+            for (int j = 0; j<siblings.size(); j++){
+                mergeSiblingArticles.append(siblings.get(j)).append(" ");
+            }
+            String siblingNewsSummarized = SummarizeArticle.sumUp(String.valueOf(mergeSiblingArticles));
+            //remove bias
+            String summarizationWithoutBias = BiasRemover.remove(siblingNewsSummarized);
+            System.out.println("-------------------------------------------------");
+            System.out.println(summarizationWithoutBias);
+        }
 
 
 

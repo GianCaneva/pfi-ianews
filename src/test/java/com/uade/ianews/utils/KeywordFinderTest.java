@@ -1,6 +1,7 @@
-package com.uade.ianews;
+package com.uade.ianews.utils;
 
 
+import com.uade.ianews.utils.KeywordFinder;
 import junit.framework.TestCase;
 
 import org.junit.Test;

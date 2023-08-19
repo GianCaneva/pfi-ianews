@@ -1,22 +1,17 @@
-package com.uade.ianews;
+package com.uade.ianews.utils;
 
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpResponse;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
-public class SummarizeArticle {
+public class SummarizeArticle1 {
 
     public static void sumUp(String message) {
         HttpClient httpClient = HttpClients.createDefault();
@@ -36,6 +31,7 @@ public class SummarizeArticle {
 
         try {
             HttpResponse response = httpClient.execute(httpPost);
+            System.out.println(response);
             //String responseBody = EntityUtils.toString(response.getEntity());
             //System.out.println(responseBody);
         } catch (IOException e) {

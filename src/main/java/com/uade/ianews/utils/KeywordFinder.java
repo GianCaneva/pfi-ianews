@@ -1,4 +1,4 @@
-package com.uade.ianews;
+package com.uade.ianews.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -110,8 +110,13 @@ public class KeywordFinder {
         }
         //REMOVING PREOPSICIONES
         result.remove("DE");
+        result.remove("DEL");
         result.remove("LA");
         result.remove("LAS");
+        result.remove("LO");
+        result.remove("LOS");
+        result.remove("");
+        result.remove("|");
         return result;
 
     }

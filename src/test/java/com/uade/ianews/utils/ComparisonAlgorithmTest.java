@@ -1,5 +1,6 @@
-package com.uade.ianews;
+package com.uade.ianews.utils;
 
+import com.uade.ianews.utils.ComparisonAlgorithm;
 import junit.framework.TestCase;
 
 import com.uade.ianews.dto.News;
@@ -8,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
