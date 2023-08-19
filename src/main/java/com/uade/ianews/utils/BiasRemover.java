@@ -21,7 +21,7 @@ public class BiasRemover {
                 processedText.append(palabra).append(" ");
             }
         }
-        return String.valueOf(processedText);
+        return String.valueOf(processedText).trim();
     }
 
     private static Set<String> getAllAdjetivesInSpanish() {
@@ -47,7 +47,7 @@ public class BiasRemover {
                 "duro", "blando", "fácil", "difícil", "amable", "cruel",
                 "simpático", "antipático", "abierto", "cerrado", "alto", "bajo",
                 "joven", "viejo", "largo", "corto", "gordo", "delgado",
-                "fuerte", "débil", "rico", "pobre", "cálido", "frío"
+                "fuerte", "débil", "rico", "pobre", "cálido", "frío", "rapidamente","gran", "exitoso", "exitosa"
         ));
         return spanishAdjectives;
     }

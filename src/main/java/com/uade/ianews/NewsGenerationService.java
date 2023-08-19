@@ -41,14 +41,14 @@ public class NewsGenerationService {
             for (int j = 0; j<siblings.size(); j++){
                 mergeSiblingArticles.append(siblings.get(j)).append(" ");
             }
-            String siblingNewsSummarized = SummarizeArticle.sumUp(String.valueOf(mergeSiblingArticles));
+            //remove bias
+            String mergeArticleWithoutBias = BiasRemover.remove(String.valueOf(mergeSiblingArticles));
+            //call to AI to resume
+            String siblingNewsSummarized = SummarizeArticle.sumUp(mergeArticleWithoutBias);
             //remove bias
             String summarizationWithoutBias = BiasRemover.remove(siblingNewsSummarized);
             System.out.println("-------------------------------------------------");
             System.out.println(summarizationWithoutBias);
         }
-
-
-
     }
 }
