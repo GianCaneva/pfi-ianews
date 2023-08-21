@@ -1,14 +1,13 @@
-package com.groupone.backoffice.utils;
+package com.uade.ainews.utils;
 
 
-import com.groupone.backoffice.newsGeneration.dto.News;
+import com.uade.ainews.newsGeneration.dto.News;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ComparisonAlgorithm {
 
-    // todo mejorar esto con datos reales
     public static final int AMOUNT_OF_SAME_WORDS_TO_DETECT_SIMILARITY = 2;
 
     public static List<List<News>> identifySameNews(List<News> allNews){

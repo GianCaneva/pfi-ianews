@@ -1,4 +1,4 @@
-package com.groupone.backoffice.utils;
+package com.uade.ainews.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

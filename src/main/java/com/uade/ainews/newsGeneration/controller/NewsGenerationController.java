@@ -1,8 +1,8 @@
-package com.groupone.backoffice.newsGeneration.controller;
+package com.uade.ainews.newsGeneration.controller;
 
 
-import com.groupone.backoffice.newsGeneration.dto.News;
-import com.groupone.backoffice.newsGeneration.service.NewsGenerationService;
+import com.uade.ainews.newsGeneration.dto.News;
+import com.uade.ainews.newsGeneration.service.NewsGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

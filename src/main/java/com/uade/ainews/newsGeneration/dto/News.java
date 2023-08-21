@@ -1,4 +1,4 @@
-package com.groupone.backoffice.newsGeneration.dto;
+package com.uade.ainews.newsGeneration.dto;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +17,7 @@ import java.util.List;
 public class News {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String url;

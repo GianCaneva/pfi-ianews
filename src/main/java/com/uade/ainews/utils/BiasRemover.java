@@ -1,4 +1,4 @@
-package com.groupone.backoffice.utils;
+package com.uade.ainews.utils;
 
 import java.util.Arrays;
 import java.util.HashSet;

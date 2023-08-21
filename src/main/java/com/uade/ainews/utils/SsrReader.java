@@ -1,4 +1,4 @@
-package com.groupone.backoffice.utils;
+package com.uade.ainews.utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

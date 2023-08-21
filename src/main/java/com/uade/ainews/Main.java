@@ -1,10 +1,9 @@
-package com.groupone.backoffice;
+package com.uade.ainews;
 
 
-import com.groupone.backoffice.newsGeneration.service.NewsGenerationService;
+import com.uade.ainews.newsGeneration.service.NewsGenerationService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 import java.io.IOException;
 

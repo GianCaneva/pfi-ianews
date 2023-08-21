@@ -1,9 +1,9 @@
-package com.groupone.backoffice.newsGeneration.service;
+package com.uade.ainews.newsGeneration.service;
 
 
-import com.groupone.backoffice.newsGeneration.dto.News;
-import com.groupone.backoffice.newsGeneration.repository.NewsGenerationRepository;
-import com.groupone.backoffice.utils.*;
+import com.uade.ainews.newsGeneration.dto.News;
+import com.uade.ainews.newsGeneration.repository.NewsGenerationRepository;
+import com.uade.ainews.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

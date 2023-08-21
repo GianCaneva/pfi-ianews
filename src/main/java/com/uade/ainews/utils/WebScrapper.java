@@ -1,5 +1,5 @@
-package com.groupone.backoffice.utils;
-import com.groupone.backoffice.newsGeneration.dto.News;
+package com.uade.ainews.utils;
+import com.uade.ainews.newsGeneration.dto.News;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

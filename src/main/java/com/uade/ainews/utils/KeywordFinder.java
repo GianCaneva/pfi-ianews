@@ -1,4 +1,4 @@
-package com.groupone.backoffice.utils;
+package com.uade.ainews.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
