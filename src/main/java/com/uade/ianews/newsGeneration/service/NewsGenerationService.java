@@ -1,18 +1,37 @@
-package com.uade.ianews;
+package com.uade.ianews.newsGeneration.service;
 
-import com.uade.ianews.dto.News;
+import com.uade.ianews.newsGeneration.dto.News;
+import com.uade.ianews.newsGeneration.repository.NewsGenerationRepository;
 import com.uade.ianews.utils.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class NewsGenerationService {
 
     public static final String CLARIN_RSS = "https://www.clarin.com/rss/lo-ultimo/";
     public static final String PERFIL_RSS = "https://www.perfil.com/feed";
+    @Autowired
+    //private NewsGenerationRepository newsGenerationRepository;
 
-    public static void main(String[] args) throws IOException {
+    public Optional<News> test(){
+        /*Optional<News> newsById = newsGenerationRepository.findById(1L);
+        if (newsById.isEmpty()){
+            System.out.println("NOT");
+        }else{
+            System.out.println("YES");
+        }
+        return newsById;*/
+        return null;
+
+    }
+
+    public void lookAndGenerateNews() throws IOException {
         List<String> allRSSLinks = new LinkedList<>();
         allRSSLinks.add(CLARIN_RSS);
         allRSSLinks.add(PERFIL_RSS);

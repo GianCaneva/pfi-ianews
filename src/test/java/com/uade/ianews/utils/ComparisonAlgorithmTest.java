@@ -1,9 +1,8 @@
 package com.uade.ianews.utils;
 
-import com.uade.ianews.utils.ComparisonAlgorithm;
 import junit.framework.TestCase;
 
-import com.uade.ianews.dto.News;
+import com.uade.ianews.newsGeneration.dto.News;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;

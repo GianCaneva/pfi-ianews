@@ -1,6 +1,6 @@
 package com.uade.ianews.utils;
 
-import com.uade.ianews.dto.News;
+import com.uade.ianews.newsGeneration.dto.News;
 
 import java.util.LinkedList;
 import java.util.List;

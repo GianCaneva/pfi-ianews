@@ -1,5 +1,5 @@
 package com.uade.ianews.utils;
-import com.uade.ianews.dto.News;
+import com.uade.ianews.newsGeneration.dto.News;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

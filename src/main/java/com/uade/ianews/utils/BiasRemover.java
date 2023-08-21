@@ -1,10 +1,7 @@
 package com.uade.ianews.utils;
 
-import com.uade.ianews.dto.News;
-
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class BiasRemover {
