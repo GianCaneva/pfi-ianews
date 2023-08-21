@@ -17,17 +17,16 @@ public class NewsGenerationService {
     public static final String CLARIN_RSS = "https://www.clarin.com/rss/lo-ultimo/";
     public static final String PERFIL_RSS = "https://www.perfil.com/feed";
     @Autowired
-    //private NewsGenerationRepository newsGenerationRepository;
+    private NewsGenerationRepository newsGenerationRepository;
 
     public Optional<News> test(){
-        /*Optional<News> newsById = newsGenerationRepository.findById(1L);
+        Optional<News> newsById = newsGenerationRepository.findById(1L);
         if (newsById.isEmpty()){
             System.out.println("NOT");
         }else{
             System.out.println("YES");
         }
-        return newsById;*/
-        return null;
+        return newsById;
 
     }
 

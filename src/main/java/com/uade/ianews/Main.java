@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.io.IOException;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class }, scanBasePackages={
+        "com.uade.ianews.newsGeneration.repository"})
 public class Main {
 
     public static void main(String[] args) {

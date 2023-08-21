@@ -17,7 +17,7 @@ public class NewsGenerationController {
     @Autowired
     private NewsGenerationService newsGenerationService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/all")
     public ResponseEntity<Optional<News>> getNews() {
         Optional<News> users = newsGenerationService.test();
         if (!users.isEmpty()) {
