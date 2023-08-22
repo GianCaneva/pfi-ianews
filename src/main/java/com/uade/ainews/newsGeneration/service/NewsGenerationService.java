@@ -31,7 +31,7 @@ public class NewsGenerationService {
     }
 
     public List<String> lookAndGenerateNews() throws IOException {
-        try{
+
 
 
             List<String> allRSSLinks = new LinkedList<>();
@@ -55,7 +55,7 @@ public class NewsGenerationService {
             //Match same news
             List<List<News>> allSiblingNews = ComparisonAlgorithm.identifySameNews(allNewsWithInfo);
             //Save on the db
-            //saveNewsOntoDB(allSiblingNews);
+            saveNewsOntoDB(allSiblingNews);
             //Summarize same news
             List<String> response = new ArrayList<>();
             for(int i = 0; i<allSiblingNews.size(); i++){
@@ -75,11 +75,7 @@ public class NewsGenerationService {
                 response.add(siblingNewsSummarized);
             }
             return response;
-        }
-        catch (Exception e){
 
-        }
-        return null;
     }
 
     private void saveNewsOntoDB(List<List<News>> allSiblingNews) {
