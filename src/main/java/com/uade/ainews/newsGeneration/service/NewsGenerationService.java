@@ -3,12 +3,16 @@ package com.uade.ainews.newsGeneration.service;
 
 import com.uade.ainews.TestUtils;
 import com.uade.ainews.newsGeneration.dto.News;
+import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.repository.NewsGenerationRepository;
+import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
 import com.uade.ainews.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -18,6 +22,8 @@ public class NewsGenerationService {
     public static final String PERFIL_RSS = "https://www.perfil.com/feed";
     @Autowired
     private NewsGenerationRepository newsGenerationRepository;
+    @Autowired
+    private SummarizedNewsRepository summarizedNewsRepository;
 
     public Optional<News> test(){
         Optional<News> newsById = newsGenerationRepository.findById(1L);
@@ -32,8 +38,7 @@ public class NewsGenerationService {
 
     public List<String> lookAndGenerateNews() throws IOException {
 
-
-
+        try {
             List<String> allRSSLinks = new LinkedList<>();
             allRSSLinks.add(CLARIN_RSS);
             allRSSLinks.add(PERFIL_RSS);
@@ -58,6 +63,7 @@ public class NewsGenerationService {
             saveNewsOntoDB(allSiblingNews);
             //Summarize same news
             List<String> response = new ArrayList<>();
+            List<SummarizedNews> summarizedNews = new ArrayList<>();
             for(int i = 0; i<allSiblingNews.size(); i++){
                 StringBuilder mergeSiblingArticles = new StringBuilder();
                 List<News> siblings = allSiblingNews.get(i);
@@ -73,8 +79,15 @@ public class NewsGenerationService {
                 System.out.println("-------------------------------------------------");
                 System.out.println(summarizationWithoutBias);
                 response.add(siblingNewsSummarized);
+                summarizedNews.add(SummarizedNews.builder().summary(siblingNewsSummarized).releaseDate(LocalDateTime.now()).build());
             }
+            saveSummarizedNewsOntoDB(summarizedNews);
             return response;
+        }
+        catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
 
     }
 
@@ -84,7 +97,12 @@ public class NewsGenerationService {
             for(int j = 0; j<aGroupOfSibling.size();j++){
                 newsGenerationRepository.save(aGroupOfSibling.get(j));
             }
+        }
+    }
 
+    private void saveSummarizedNewsOntoDB(List<SummarizedNews> allSummarizedNews) {
+        for(int j = 0; j<allSummarizedNews.size();j++){
+            summarizedNewsRepository.save(allSummarizedNews.get(j));
         }
     }
 }
