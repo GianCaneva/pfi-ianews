@@ -72,7 +72,7 @@ public class SummarizeArticle {
                 JsonNode summaryNode = jsonNode.get(0).get("summary_text");
                 if (summaryNode != null) {
                     summaryText = summaryNode.asText();
-                    System.out.println("Texto resumen: " + summaryText);
+                    System.out.println("Texto resumido: " + summaryText);
                 }
             }
 

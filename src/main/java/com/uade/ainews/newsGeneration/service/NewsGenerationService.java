@@ -76,8 +76,8 @@ public class NewsGenerationService {
                 String siblingNewsSummarized = SummarizeArticle.sumUp(mergeArticleWithoutBias);
                 //remove bias
                 String summarizationWithoutBias = BiasRemover.remove(siblingNewsSummarized);
+                System.out.println("summarizationWithoutBias:" + summarizationWithoutBias);
                 System.out.println("-------------------------------------------------");
-                System.out.println(summarizationWithoutBias);
                 response.add(siblingNewsSummarized);
                 summarizedNews.add(SummarizedNews.builder().summary(siblingNewsSummarized).releaseDate(LocalDateTime.now()).build());
             }

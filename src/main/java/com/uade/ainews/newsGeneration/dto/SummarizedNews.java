@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "news")
+@Entity(name = "sumnews")
 @Table(name = "SUMNEWS")
 public class SummarizedNews {
 
