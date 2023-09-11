@@ -82,6 +82,9 @@ public class NewsGenerationService {
                 summarizedNews.add(SummarizedNews.builder().summary(siblingNewsSummarized).releaseDate(LocalDateTime.now()).build());
             }
             saveSummarizedNewsOntoDB(summarizedNews);
+            System.out.println("/////////////////////////");
+            System.out.println("FINALIZACION DE LA EJECUCION");
+            System.out.println("/////////////////////////");
             return response;
         }
         catch (Exception e){
