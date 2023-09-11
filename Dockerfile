@@ -1,10 +1,12 @@
-FROM maven:3-jdk-8-alpine
+FROM eclipse-temurin:17-jdk-jammy
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY . /usr/src/app
-RUN mvn package
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 
-ENV PORT 5000
-EXPOSE $PORT
-CMD [ "sh", "-c", "mvn -Dserver.port=${PORT} spring-boot:run" ]
+RUN ./mvnw dependency:resolve
+COPY src ./src
+
+EXPOSE 8080
+CMD ["./mvnw", "spring-boot:run"]
