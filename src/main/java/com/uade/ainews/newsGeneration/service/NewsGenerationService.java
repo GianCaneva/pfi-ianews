@@ -73,7 +73,7 @@ public class NewsGenerationService {
                 //remove bias
                 String mergeArticleWithoutBias = BiasRemover.remove(String.valueOf(mergeSiblingArticles));
                 //call to AI to resume
-                String siblingNewsSummarized = SummarizeArticle.sumUp(mergeArticleWithoutBias);
+                String siblingNewsSummarized = SummarizeArticle.sumUp(mergeArticleWithoutBias, 100);
                 //remove bias
                 String summarizationWithoutBias = BiasRemover.remove(siblingNewsSummarized);
                 System.out.println("summarizationWithoutBias:" + summarizationWithoutBias);
