@@ -70,13 +70,9 @@ public class NewsGenerationService {
                 for (int j = 0; j<siblings.size(); j++){
                     mergeSiblingArticles.append(siblings.get(j).getArticle()).append(" ");
                 }
-                //remove bias
-                String mergeArticleWithoutBias = BiasRemover.remove(String.valueOf(mergeSiblingArticles));
-                //call to AI to resume
-                String siblingNewsSummarized = SummarizeArticle.sumUp(mergeArticleWithoutBias, 100);
-                //remove bias
-                String summarizationWithoutBias = BiasRemover.remove(siblingNewsSummarized);
-                System.out.println("summarizationWithoutBias:" + summarizationWithoutBias);
+                //call to AI to resume and eliminate Bias
+                String siblingNewsSummarized = SummarizeArticle.sumUp(String.valueOf(mergeSiblingArticles), 100);
+                System.out.println("summarizationWithoutBias:" + siblingNewsSummarized);
                 System.out.println("-------------------------------------------------");
                 response.add(siblingNewsSummarized);
                 summarizedNews.add(SummarizedNews.builder().summary(siblingNewsSummarized).releaseDate(LocalDateTime.now()).build());

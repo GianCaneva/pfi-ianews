@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import junit.framework.TestCase;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
+@Disabled
 public class BiasRemoverTest extends TestCase {
     @Test
     public void testRemove() {

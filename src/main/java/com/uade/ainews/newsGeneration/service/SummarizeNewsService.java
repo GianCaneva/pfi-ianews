@@ -4,7 +4,6 @@ import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.dto.User;
 import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
 import com.uade.ainews.newsGeneration.repository.UserRepository;
-import com.uade.ainews.utils.BiasRemover;
 import com.uade.ainews.utils.SummarizeArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,16 +26,12 @@ public class SummarizeNewsService {
 
         if (newsById.isPresent()) {
             SummarizedNews allSameNewsRaw = newsById.get();
-            //remove bias
-            String mergeArticleWithoutBias = BiasRemover.remove(String.valueOf(allSameNewsRaw));
-
-            //call to AI to resume
+            //resume text and eliminate bias
             Integer articleExtension = findArticleExtension(allSameNewsRaw, userEmail);
-            String siblingNewsSummarized = SummarizeArticle.sumUp(mergeArticleWithoutBias, articleExtension);
+            String siblingNewsSummarizedAndBiasFree= SummarizeArticle.sumUp(String.valueOf(allSameNewsRaw), articleExtension);
 
             //remove bias
-            String summarizationWithoutBias = BiasRemover.remove(siblingNewsSummarized);
-            System.out.println("summarizationWithoutBias:" + summarizationWithoutBias);
+            System.out.println("summarizationWithoutBias:" + siblingNewsSummarizedAndBiasFree);
             System.out.println("-------------------------------------------------");
             /*response.add(siblingNewsSummarized);
             summarizedNews.add(SummarizedNews.builder().summary(siblingNewsSummarized).releaseDate(LocalDateTime.now()).build());
@@ -72,6 +67,9 @@ public class SummarizeNewsService {
                 break;
             case "INTERNATIONAL":
                 timeToReadSection = reader.getInternationalTime();
+                break;
+            case "POLICE":
+                timeToReadSection = reader.getPoliceTime();
                 break;
             default:
                 timeToReadSection = 100;

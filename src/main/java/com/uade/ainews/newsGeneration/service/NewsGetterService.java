@@ -19,7 +19,6 @@ import java.util.Optional;
 @Service
 public class NewsGetterService {
 
-    // IA SESGO
     // CRON
 
     //Set up every url source with their sections
