@@ -23,6 +23,8 @@ public class SummarizedNews {
     @Column
     private String title;
     @Column
+    private String rawArticle;
+    @Column
     private String summary;
     @Column
     private LocalDateTime releaseDate;
