@@ -32,6 +32,7 @@ public class ComparisonAlgorithm {
                         matches++;
                         if (matches == AMOUNT_OF_SAME_WORDS_TO_DETECT_SIMILARITY){
                             //currentNews.addSameNews(comparisonNews);
+                            comparisonNews.setMerged("Y");
                             siblingNews.add(comparisonNews);
                             allNews.remove(comparisonNews);
                         }
@@ -41,6 +42,7 @@ public class ComparisonAlgorithm {
                 matches = 0;
             }
             if (!siblingNews.isEmpty()){
+                currentNews.setMerged("Y");
                 siblingNews.add(currentNews);
                 allNews.remove(currentNews);
                 matchNews.add(siblingNews);

@@ -40,5 +40,9 @@ public class User {
     private Integer internationalInterest;
     @Column(columnDefinition = "INT DEFAULT 100")
     private Integer internationalTime;
+    @Column(columnDefinition = "INT DEFAULT 100")
+    private Integer policeInterest;
+    @Column(columnDefinition = "INT DEFAULT 100")
+    private Integer policeTime;
 
 }

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +21,9 @@ public class SummarizeNewsService {
     @Autowired
     private UserRepository userRepository;
 
-    public void execute(SummarizedNews summarizedNews, User user) throws IOException {
+    public void summarizeNews(Integer newsId, String userEmail){
 
-        Optional<SummarizedNews> newsById = summarizedNewsRepository.findById(summarizedNews.getId());
+        Optional<SummarizedNews> newsById = summarizedNewsRepository.findById(Long.valueOf(newsId));
 
         if (newsById.isPresent()) {
             SummarizedNews allSameNewsRaw = newsById.get();
@@ -32,7 +31,7 @@ public class SummarizeNewsService {
             String mergeArticleWithoutBias = BiasRemover.remove(String.valueOf(allSameNewsRaw));
 
             //call to AI to resume
-            Integer articleExtension = findArticleExtension(allSameNewsRaw, user);
+            Integer articleExtension = findArticleExtension(allSameNewsRaw, userEmail);
             String siblingNewsSummarized = SummarizeArticle.sumUp(mergeArticleWithoutBias, articleExtension);
 
             //remove bias
@@ -54,8 +53,8 @@ public class SummarizeNewsService {
         }
     }
 
-    private Integer findArticleExtension(SummarizedNews allSameNewsRaw, User user) {
-        User reader = userRepository.findById(user.getId()).get();
+    private Integer findArticleExtension(SummarizedNews allSameNewsRaw, String userEmail) {
+        User reader = userRepository.findByEmail(userEmail);
 
         Integer timeToReadSection = 0;
         switch (allSameNewsRaw.getSection()){

@@ -30,13 +30,10 @@ public class News {
     @Column
     private String article;
     @Column
-    private String summary;
+    private String merged;
     @Column
     private LocalDateTime releaseDate;
-    /*
-    @Temporal(TemporalType.DATE)
-    private Date releaseDate;
-*/
+
     public void setArticle(StringBuilder article) {
         this.article = String.valueOf(article);
     }
