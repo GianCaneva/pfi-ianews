@@ -18,7 +18,7 @@ public class SummarizedNewsController {
     private SummarizeNewsService summarizeNewsService;
 
     @PostMapping("/register")
-    public void registerUser(@RequestParam Integer newsId, @RequestParam String userEmail) {
+    public void generateAiArticle(@RequestParam Integer newsId, @RequestParam String userEmail) {
         summarizeNewsService.summarizeNews(newsId, userEmail);
     }
 }
