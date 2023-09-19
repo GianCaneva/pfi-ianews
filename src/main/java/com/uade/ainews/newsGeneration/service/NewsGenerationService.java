@@ -73,7 +73,7 @@ public class NewsGenerationService {
                     mergeSiblingArticles.append(siblings.get(j).getArticle()).append(" ");
                 }
                 //call to AI to resume and eliminate Bias
-                String siblingNewsSummarized = SummarizeArticle.sumUp(String.valueOf(mergeSiblingArticles), 100);
+                String siblingNewsSummarized = SummarizeArticle.sumUp(String.valueOf(mergeSiblingArticles), 100, 200);
                 System.out.println("summarizationWithoutBias:" + siblingNewsSummarized);
                 System.out.println("-------------------------------------------------");
                 response.add(siblingNewsSummarized);

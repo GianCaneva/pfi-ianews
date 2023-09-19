@@ -13,11 +13,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 public class SummarizeArticle {
 
-    public static String sumUp(String message, Integer textExtension) {
+    public static String sumUp(String message, Integer maxTextExtension, Integer minTextExtension) {
         String summary = "";
         try {
-            String restUrl = "http://localhost:8080/api/receive";
-            String response = sendTextViaRest(message, textExtension, restUrl);
+            String restUrl = "http://localhost:8081/api/receive";
+            String response = sendTextViaRest(message, maxTextExtension, minTextExtension, restUrl);
             String decodedResponse = decodeUnicode(response);
             summary = extractResponse(decodedResponse);
 
@@ -28,9 +28,9 @@ public class SummarizeArticle {
     }
 
 
-    public static String sendTextViaRest(String text, Integer textExtension, String restUrl) throws IOException {
+    public static String sendTextViaRest(String text, Integer maxTextExtension, Integer minTextExtension, String restUrl) throws IOException {
         // Construir la URL con el parámetro textExtension
-        String urlWithParams = restUrl + "?textExtension=" +  textExtension;
+        String urlWithParams = restUrl + "?maxTextExtension=" + maxTextExtension + "&minTextExtension=" + minTextExtension;
         URL url = new URL(urlWithParams);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

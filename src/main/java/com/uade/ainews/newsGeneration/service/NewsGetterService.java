@@ -19,7 +19,6 @@ import java.util.Optional;
 
 @Service
 public class NewsGetterService {
-    // JWT
     // CRON
 
     //Set up every url source with their sections
@@ -37,6 +36,8 @@ public class NewsGetterService {
     public static final String PERFIL_RSS_INTERNACIONAL = "https://www.perfil.com/feed/internacionales";
     public static final String CLARIN_RSS_POLICIALES = "https://www.clarin.com/rss/policiales/";
     public static final String PERFIL_RSS_POLICIALES = "https://www.perfil.com/feed/policia";
+    public static final int TITLE_MAX_EXTENSION = 25;
+    public static final int TITLE_MIN_EXTENSION = 5;
 
     @Autowired
     private SummarizedNewsRepository summarizedNewsRepository;
@@ -77,7 +78,7 @@ public class NewsGetterService {
                     //Almacena en la base de datos las noticias que se utilizaron para genear un AI articulo
                     newsGenerationRepository.save(siblings.get(j));
                 }
-                String titleSummarized = SummarizeArticle.sumUp(String.valueOf(mergeSiblingTitles), 30);
+                String titleSummarized = SummarizeArticle.sumUp(String.valueOf(mergeSiblingTitles), TITLE_MAX_EXTENSION, TITLE_MIN_EXTENSION);
                 //Save on the db
                 summarizedNewsRepository.save(SummarizedNews.builder().title(titleSummarized).rawArticle(String.valueOf(mergeSiblingArticles)).releaseDate(LocalDateTime.now()).build());
             }

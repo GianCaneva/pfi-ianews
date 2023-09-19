@@ -14,6 +14,7 @@ import java.util.Optional;
 @Service
 public class SummarizeNewsService {
 
+    public static final int EXTRA_ARTICLE_EXTENSION = 100;
     @Autowired
     private SummarizedNewsRepository summarizedNewsRepository;
     @Autowired
@@ -26,8 +27,8 @@ public class SummarizeNewsService {
         if (newsById.isPresent()) {
             SummarizedNews allSameNewsRaw = newsById.get();
             //resume text and eliminate bias
-            Integer articleExtension = findArticleExtension(allSameNewsRaw, userEmail);
-            String siblingNewsSummarizedAndBiasFree= SummarizeArticle.sumUp(String.valueOf(allSameNewsRaw), articleExtension);
+            Integer minArticleExtension = findArticleExtension(allSameNewsRaw, userEmail);
+            String siblingNewsSummarizedAndBiasFree= SummarizeArticle.sumUp(String.valueOf(allSameNewsRaw), minArticleExtension + EXTRA_ARTICLE_EXTENSION, minArticleExtension);
 
             //remove bias
             System.out.println("summarizationWithoutBias:" + siblingNewsSummarizedAndBiasFree);
