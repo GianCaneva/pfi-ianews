@@ -27,7 +27,6 @@ public class UserController {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(requestBody);
             String password = jsonNode.get("password").asText();
-            System.out.println(password+".");
             Encoder encoder = Encoder.getInstance();
             userService.registerUser(email, encoder.encode(password));
         } catch (Exception e) {
