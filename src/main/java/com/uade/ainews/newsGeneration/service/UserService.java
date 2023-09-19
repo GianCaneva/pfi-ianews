@@ -1,12 +1,10 @@
 package com.uade.ainews.newsGeneration.service;
 
 import com.uade.ainews.newsGeneration.dto.User;
-
 import com.uade.ainews.newsGeneration.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 

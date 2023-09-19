@@ -11,9 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@Deprecated
 public class NewsGenerationService {
 
     public static final String CLARIN_RSS = "https://www.clarin.com/rss/lo-ultimo/";
