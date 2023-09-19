@@ -3,8 +3,6 @@ package com.uade.ainews.newsGeneration.dto;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Builder

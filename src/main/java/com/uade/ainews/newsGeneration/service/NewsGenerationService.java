@@ -1,21 +1,23 @@
 package com.uade.ainews.newsGeneration.service;
 
 
-import com.uade.ainews.TestUtils;
 import com.uade.ainews.newsGeneration.dto.News;
 import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.repository.NewsGenerationRepository;
 import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
-import com.uade.ainews.utils.*;
+import com.uade.ainews.newsGeneration.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@Deprecated
 public class NewsGenerationService {
 
     public static final String CLARIN_RSS = "https://www.clarin.com/rss/lo-ultimo/";

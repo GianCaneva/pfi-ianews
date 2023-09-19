@@ -12,6 +12,6 @@ public class TestUtils {
     public static News createNews(){
         List<String> keywords1 = new LinkedList<String>(Arrays.asList("A", "B", "C", "D", "E"));
         LocalDateTime date= LocalDateTime.now();
-        return News.builder().url("aURL").keywords(keywords1).section("aSection").title("aTitle").article("anArticle").summary("aSummary").releaseDate(date).build();
+        return News.builder().url("aURL").keywords(keywords1).section("aSection").title("aTitle").article("anArticle").releaseDate(date).build();
     }
 }

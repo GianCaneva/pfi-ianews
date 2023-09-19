@@ -5,20 +5,21 @@ import com.uade.ainews.newsGeneration.dto.Rss;
 import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.repository.NewsGenerationRepository;
 import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
-import com.uade.ainews.utils.*;
+import com.uade.ainews.newsGeneration.utils.ComparisonAlgorithm;
+import com.uade.ainews.newsGeneration.utils.KeywordFinder;
+import com.uade.ainews.newsGeneration.utils.SummarizeArticle;
+import com.uade.ainews.newsGeneration.utils.WebScrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class NewsGetterService {
-
+    // JWT
     // CRON
 
     //Set up every url source with their sections
@@ -42,7 +43,7 @@ public class NewsGetterService {
     @Autowired
     private NewsGenerationRepository newsGenerationRepository;
 
-    public void getSameNews() throws IOException {
+    public void getSameNews() {
 
         try {
             List<Rss> allRSSLinks = new LinkedList<>();
@@ -53,7 +54,7 @@ public class NewsGetterService {
                 Rss currentRss = allRSSLinks.get(i);
                 Optional<News> oneByUrl = newsGenerationRepository.findOneByUrl(currentRss.getUrl());
                 //En caso de que no haya ninguna URL igual en la base de datos, se procede al analisis
-                if (!oneByUrl.isPresent()) {
+                if (oneByUrl.isEmpty()) {
                     //Scrapping. Get article and title from a URL
                     News newsWithInformationFromPagAndKeyWords = WebScrapper.getInformationFromPage(News.builder().url(currentRss.getUrl()).section(currentRss.getSection()).build());
                     //Get keywords
