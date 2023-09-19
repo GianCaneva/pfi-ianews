@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 //development
 //http://localhost:8080/news/user/register?email=gfocaneva@gmail.com&password=1234
@@ -22,11 +23,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestParam String email, @RequestBody String requestBody) {
+    public ResponseEntity<Object> registerUser(@RequestBody Map<String, String> requestBody) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(requestBody);
-            String password = jsonNode.get("password").asText();
+            String email = requestBody.get("email");
+            String password = requestBody.get("password");
             Encoder encoder = Encoder.getInstance();
             userService.registerUser(email, encoder.encode(password));
         } catch (Exception e) {
