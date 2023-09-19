@@ -1,4 +1,4 @@
-package com.uade.ainews.utils;
+package com.uade.ainews.newsGeneration.utils;
 
 import java.util.Arrays;
 import java.util.HashSet;

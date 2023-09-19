@@ -4,11 +4,10 @@ import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.dto.User;
 import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
 import com.uade.ainews.newsGeneration.repository.UserRepository;
-import com.uade.ainews.utils.SummarizeArticle;
+import com.uade.ainews.newsGeneration.utils.SummarizeArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 

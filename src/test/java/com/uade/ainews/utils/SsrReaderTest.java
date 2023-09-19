@@ -1,7 +1,6 @@
 package com.uade.ainews.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import com.uade.ainews.newsGeneration.utils.SsrReader;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;

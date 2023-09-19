@@ -1,8 +1,7 @@
 package com.uade.ainews.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.uade.ainews.newsGeneration.dto.News;
+import com.uade.ainews.newsGeneration.utils.ComparisonAlgorithm;
 import junit.framework.TestCase;
 
 

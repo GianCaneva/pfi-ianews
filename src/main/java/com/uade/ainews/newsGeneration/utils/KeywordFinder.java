@@ -1,4 +1,4 @@
-package com.uade.ainews.utils;
+package com.uade.ainews.newsGeneration.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

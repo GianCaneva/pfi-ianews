@@ -1,4 +1,4 @@
-package com.uade.ainews.utils;
+package com.uade.ainews.newsGeneration.utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

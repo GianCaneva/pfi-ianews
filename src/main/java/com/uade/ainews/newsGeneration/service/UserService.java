@@ -4,11 +4,11 @@ import com.uade.ainews.newsGeneration.dto.User;
 
 import com.uade.ainews.newsGeneration.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
-
-import java.io.IOException;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -27,6 +27,15 @@ public class UserService {
             userRepository.save(User.builder().email(email).password(password).build());
         } else {
             throw new RuntimeException("The email is already registered");
+        }
+    }
+
+    public ResponseEntity<List<User>> getAllUser() {
+        List<User> users = userRepository.findAll();
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

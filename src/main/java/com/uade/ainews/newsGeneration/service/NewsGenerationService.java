@@ -1,14 +1,12 @@
 package com.uade.ainews.newsGeneration.service;
 
 
-import com.uade.ainews.TestUtils;
 import com.uade.ainews.newsGeneration.dto.News;
 import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.repository.NewsGenerationRepository;
 import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
-import com.uade.ainews.utils.*;
+import com.uade.ainews.newsGeneration.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
