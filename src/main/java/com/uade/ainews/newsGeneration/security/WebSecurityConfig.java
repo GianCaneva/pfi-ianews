@@ -76,12 +76,13 @@ public class WebSecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return Encoder.getInstance();
     }
 
     //Usar para generar contraseñas encriptadas
     public static void main (String[] args){
-        System.out.println("pass: " + new BCryptPasswordEncoder().encode("admin") );
+        Encoder encoder = Encoder.getInstance();
+        System.out.println("pass: " + encoder.encode("admin") );
     }
 
 
