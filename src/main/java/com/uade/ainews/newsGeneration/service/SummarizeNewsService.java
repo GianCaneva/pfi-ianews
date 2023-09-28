@@ -6,6 +6,8 @@ import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
 import com.uade.ainews.newsGeneration.repository.UserRepository;
 import com.uade.ainews.newsGeneration.utils.SummarizeArticle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,12 @@ public class SummarizeNewsService {
     private SummarizedNewsRepository summarizedNewsRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private OfferNewsService offerNewsService;
+
+    @Autowired
+    private UserService userService;
 
     public void summarizeNews(Integer newsId, String userEmail){
 
@@ -84,4 +92,16 @@ public class SummarizeNewsService {
             summarizedNewsRepository.save(allSummarizedNews.get(j));
         }
     }
+
+    public Page<SummarizedNews> getNews(String userEmail, PageRequest pageRequest) {
+        return offerNewsService.getNews(userEmail, pageRequest);
+    }
+
+    public Page<SummarizedNews> getNewsBySection(String userEmail, String section, PageRequest pageRequest) {
+        return offerNewsService.getNewsBySection(userEmail, section, pageRequest);
+    }
+
+
+
+
 }
