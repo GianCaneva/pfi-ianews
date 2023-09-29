@@ -18,6 +18,8 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean newsletter;
     @Column(columnDefinition = "INT DEFAULT 100")
     private Integer politicsInterest;
     @Column(columnDefinition = "INT DEFAULT 100")

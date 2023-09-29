@@ -99,4 +99,10 @@ public class UserService {
         }
         userRepository.save(reader);
     }
+
+    public void subscribeNewsletter(String email) {
+        User specificUser = getSpecificUser(email);
+        specificUser.setNewsletter(true);
+        userRepository.save(specificUser);
+    }
 }

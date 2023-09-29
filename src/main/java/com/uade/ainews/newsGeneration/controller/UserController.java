@@ -35,6 +35,17 @@ public class UserController {
         return ResponseEntity.ok().body("User created successfully");
     }
 
+    @PostMapping("/subscribe")
+    public ResponseEntity<Object> subscribeNewsletter(@RequestBody Map<String, String> requestBody) {
+        try {
+            String email = requestBody.get("email");
+            Encoder encoder = Encoder.getInstance();
+            userService.subscribeNewsletter(email);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().body("User subscribed to the newsletter.");
+    }
 
 
 
