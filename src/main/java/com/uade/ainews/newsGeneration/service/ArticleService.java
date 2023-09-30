@@ -7,11 +7,12 @@ import com.uade.ainews.newsGeneration.utils.SummarizeArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 @Service
 public class ArticleService {
 
-    //todo, agrgear la logica de lecutra de nocias
+    public static final int DEFAULT_WORDS_EXTENSION = 200;
     @Autowired
     private NewsService newsService;
 
@@ -24,49 +25,63 @@ public class ArticleService {
     public static final int INTEREST_SECTION_INCREMENT_VALUE = 10;
     ///////////////////////////////////////////////////////////////////////////
 
-    public ArticleResponse readAnArticle(String userEmail, Integer newsId, Integer articleWordsExtension){
+    public ArticleResponse readAnArticle(String userEmail, Integer newsId, Integer articleWordsExtension) {
         User reader = userService.getSpecificUser(userEmail);
         SummarizedNews specificNewsRaw = newsService.getSpecificNews(Long.valueOf(newsId));
 
-        //Add user interest to specific section
+        //set user interest to specific section
         userService.addInterest(userEmail, specificNewsRaw.getSection(), INTEREST_SECTION_INCREMENT_VALUE);
         String title = specificNewsRaw.getTitle();
 
         //Calculate article length per user
-        Integer minArticleExtension = findArticleExtension(reader, specificNewsRaw, articleWordsExtension);
+        Integer minArticleExtension = findArticleExtension(reader, specificNewsRaw.getSection(), articleWordsExtension);
         String articleSummarized = SummarizeArticle.sumUp(String.valueOf(specificNewsRaw), minArticleExtension + EXTRA_MARGIN_ARTICLE_EXTENSION, minArticleExtension);
         return ArticleResponse.builder().title(title).article(articleSummarized).extension(articleWordsExtension).build();
     }
 
-    private Integer findArticleExtension(User reader, SummarizedNews specificNewsRaw, Integer articleWordsExtension) {
+    private Integer findArticleExtension(User reader, String section, Integer articleWordsExtension) {
 
-        Integer timeToReadSection = 0;
-        switch (specificNewsRaw.getSection()){
+        Integer amountOfWordsForArticle = 0;
+        switch (section) {
             case "POLITICS":
-                timeToReadSection = reader.getPoliticsTime() + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
+                amountOfWordsForArticle = calculateWordCount(reader.getPoliticsTime());
                 break;
             case "ECONOMY":
-                timeToReadSection = reader.getEconomyTime() + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
+                amountOfWordsForArticle = calculateWordCount(reader.getEconomyTime());
                 break;
             case "SPORTS":
-                timeToReadSection = reader.getSportsTime() + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
+                amountOfWordsForArticle = calculateWordCount(reader.getSportsTime());
                 break;
             case "SOCIAL":
-                timeToReadSection = reader.getSocialTime() + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
+                amountOfWordsForArticle = calculateWordCount(reader.getSocialTime());
                 break;
             case "INTERNATIONAL":
-                timeToReadSection = reader.getInternationalTime() + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
+                amountOfWordsForArticle = calculateWordCount(reader.getInternationalTime());
                 break;
             case "POLICE":
-                timeToReadSection = reader.getPoliceTime() + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
+                amountOfWordsForArticle = calculateWordCount(reader.getPoliceTime());
                 break;
             default:
-                timeToReadSection = 100 + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
+                amountOfWordsForArticle = DEFAULT_WORDS_EXTENSION;
                 break;
         }
 
-        return timeToReadSection;
-
+        return amountOfWordsForArticle + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
     }
 
+    public Integer calculateWordCount(BigDecimal lectureTime) {
+        int wordCount = 0;
+        if (lectureTime.compareTo(BigDecimal.ZERO) >= 0 && lectureTime.compareTo(BigDecimal.valueOf(0.5)) <= 0) {
+            wordCount = 200;
+        } else if (lectureTime.compareTo(BigDecimal.valueOf(0.5)) > 0 && lectureTime.compareTo(BigDecimal.valueOf(1)) <= 0) {
+            wordCount = 300;
+        } else if (lectureTime.compareTo(BigDecimal.valueOf(1)) > 0 && lectureTime.compareTo(BigDecimal.valueOf(1.5)) <= 0) {
+            wordCount = 400;
+        } else if (lectureTime.compareTo(BigDecimal.valueOf(1.5)) > 0) {
+            wordCount = 500;
+        } else {
+            wordCount = DEFAULT_WORDS_EXTENSION;
+        }
+        return wordCount;
+    }
 }

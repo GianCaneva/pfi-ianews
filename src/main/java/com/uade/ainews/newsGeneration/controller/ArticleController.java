@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
-
-    //todo tiempo de lecutra
     @Autowired
     private ArticleService articleService;
 
 
-    @GetMapping("/get")
-    public ResponseEntity<ArticleResponse> getSection(
+    @GetMapping("/getArticle")
+    public ResponseEntity<ArticleResponse> getArticle(
             @RequestParam(name = "user") String userEmail,
             @RequestParam(name = "newsId") Integer newsId,
             @RequestParam(name = "extension", defaultValue = "0") Integer extension

@@ -2,10 +2,12 @@ package com.uade.ainews.newsGeneration.service;
 
 import com.uade.ainews.newsGeneration.dto.User;
 import com.uade.ainews.newsGeneration.repository.UserRepository;
+import com.uade.ainews.newsGeneration.security.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -107,5 +109,56 @@ public class UserService {
         User specificUser = getSpecificUser(email);
         specificUser.setNewsletter(true);
         userRepository.save(specificUser);
+    }
+
+    public void updateLectureTimeForUser(String email, String section, BigDecimal lastReadTime) {
+        User reader = getSpecificUser(email);
+
+        switch (section){
+            case "POLITICS":
+                BigDecimal politicsTime = reader.getPoliticsTime();
+                politicsTime = (politicsTime.add(lastReadTime)).divide(BigDecimal.valueOf(2));
+                reader.setPoliticsTime(politicsTime);
+                break;
+            case "ECONOMY":
+                BigDecimal economyTime = reader.getEconomyTime();
+                economyTime = (economyTime.add(lastReadTime)).divide(BigDecimal.valueOf(2));
+                reader.setEconomyTime(economyTime);
+                break;
+            case "SPORTS":
+                BigDecimal sportsTime = reader.getSportsTime();
+                sportsTime = (sportsTime.add(lastReadTime)).divide(BigDecimal.valueOf(2));
+                reader.setSportsTime(sportsTime);
+                break;
+            case "SOCIAL":
+                BigDecimal socialTime = reader.getSocialTime();
+                socialTime = (socialTime.add(lastReadTime)).divide(BigDecimal.valueOf(2));
+                reader.setSocialTime(socialTime);
+                break;
+            case "INTERNATIONAL":
+                BigDecimal internationalTime = reader.getInternationalTime();
+                internationalTime = (internationalTime.add(lastReadTime)).divide(BigDecimal.valueOf(2));
+                reader.setInternationalTime(internationalTime);
+                break;
+            case "POLICE":
+                BigDecimal policeTime = reader.getPoliceTime();
+                policeTime = (policeTime.add(lastReadTime)).divide(BigDecimal.valueOf(2));
+                reader.setPoliceTime(policeTime);
+                break;
+            default:
+                break;
+        }
+        userRepository.save(reader);
+    }
+
+    public void changeUserPassword(String email, String oldPassword, String newPassword) {
+        User specificUser = getSpecificUser(email);
+        Encoder encoder = Encoder.getInstance();
+        if (encoder.matches(oldPassword, specificUser.getPassword())) {
+            specificUser.setPassword(newPassword);
+            userRepository.save(specificUser);
+        } else {
+            throw new RuntimeException("Invalid Password. Please, retry");
+        }
     }
 }
