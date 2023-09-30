@@ -2,7 +2,7 @@ package com.uade.ainews.newsGeneration.service;
 
 import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.dto.User;
-import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
+import com.uade.ainews.newsGeneration.repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -10,34 +10,37 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class OfferNewsService {
+public class NewsService {
 
     @Autowired
-    private SummarizedNewsRepository summarizedNewsRepository;
+    private NewsRepository newsRepository;
     @Autowired
     private UserService userService;
 
+    //////////////////////////////// CONSTANTS ////////////////////////////////
+    public static final int INTEREST_SECTION_INCREMENT_VALUE = 5;
+    ///////////////////////////////////////////////////////////////////////////
+
+    public SummarizedNews getSpecificNews(Long newsId) {
+        return newsRepository.findById(newsId).orElseThrow(() -> new NoSuchElementException("News not found: " + newsId));
+    }
 
     private Page<SummarizedNews> getAllCurrentNews(PageRequest pageRequest){
         LocalDateTime twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
-        return summarizedNewsRepository.findAllCreatedWithinLast24Hours(twentyFourHoursAgo, pageRequest);
+        return newsRepository.findAllCreatedWithinLast24Hours(twentyFourHoursAgo, pageRequest);
     }
 
-
-    public Page<SummarizedNews> getNews(String userEmail, PageRequest pageRequest) {
+    public Page<SummarizedNews> getHomeNews(String userEmail, PageRequest pageRequest) {
         User specificUser = userService.getSpecificUser(userEmail);
         return filterByInterest(specificUser, pageRequest);
     }
 
     public Page<SummarizedNews> getNewsBySection(String userEmail, String section, PageRequest pageRequest) {
-        userService.addInterest(userEmail, section);
-        return summarizedNewsRepository.findBySection(section, pageRequest);
+        userService.addInterest(userEmail, section, INTEREST_SECTION_INCREMENT_VALUE);
+        return newsRepository.findBySection(section, pageRequest);
     }
 
     private Page<SummarizedNews> filterByInterest(User reader, PageRequest pageRequest) {
@@ -128,6 +131,7 @@ public class OfferNewsService {
         }
         return interestInSection;
     }
+
 
 
 }

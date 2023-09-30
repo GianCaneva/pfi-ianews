@@ -19,6 +19,12 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
 
+
+    //todo cambiar contraseña,
+    // baja de cuenta,
+    // links a redes sociales
+    // descontar puntaje cuando no lee noticias
+    // estadisticas
     @Autowired
     private UserService userService;
 

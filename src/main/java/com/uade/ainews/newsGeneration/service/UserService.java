@@ -12,13 +12,16 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    public static final int INTEREST_INCREMENT_VALUE = 5;
-    public static final int MAX_INTEREST_VALUE = 100;
+
     @Autowired
     private UserRepository userRepository;
 
-    public void addInterest(String userEmail, String section) {
-        getUserInterestInSection(getSpecificUser(userEmail), section);
+    //////////////////////////////// CONSTANTS ////////////////////////////////
+    public static final int MAX_INTEREST_VALUE = 100;
+    ///////////////////////////////////////////////////////////////////////////
+
+    public void addInterest(String userEmail, String section, Integer amountOfExtraInterest) {
+        getUserInterestInSection(getSpecificUser(userEmail), section, amountOfExtraInterest);
     }
 
     public void registerUser(String email, String password) {
@@ -44,11 +47,11 @@ public class UserService {
         return userRepository.findOneByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found: " + email));
     }
 
-    private void getUserInterestInSection(User reader, String section) {
+    private void getUserInterestInSection(User reader, String section, Integer amountOfExtraInterest) {
         switch (section){
             case "POLITICS":
                 Integer politicsInterest = reader.getPoliticsInterest();
-                politicsInterest = politicsInterest + INTEREST_INCREMENT_VALUE;
+                politicsInterest = politicsInterest + amountOfExtraInterest;
                 if(politicsInterest > MAX_INTEREST_VALUE) {
                     politicsInterest = MAX_INTEREST_VALUE;
                 }
@@ -56,7 +59,7 @@ public class UserService {
                 break;
             case "ECONOMY":
                 Integer economyInterest = reader.getEconomyInterest();
-                economyInterest = economyInterest + INTEREST_INCREMENT_VALUE;
+                economyInterest = economyInterest + amountOfExtraInterest;
                 if(economyInterest > MAX_INTEREST_VALUE) {
                     economyInterest = MAX_INTEREST_VALUE;
                 }
@@ -64,7 +67,7 @@ public class UserService {
                 break;
             case "SPORTS":
                 Integer sportsInterest = reader.getSportsInterest();
-                sportsInterest = sportsInterest + INTEREST_INCREMENT_VALUE;
+                sportsInterest = sportsInterest + amountOfExtraInterest;
                 if(sportsInterest > MAX_INTEREST_VALUE) {
                     sportsInterest = MAX_INTEREST_VALUE;
                 }
@@ -72,7 +75,7 @@ public class UserService {
                 break;
             case "SOCIAL":
                 Integer socialInterest = reader.getSocialInterest();
-                socialInterest = socialInterest + INTEREST_INCREMENT_VALUE;
+                socialInterest = socialInterest + amountOfExtraInterest;
                 if(socialInterest > MAX_INTEREST_VALUE) {
                     socialInterest = MAX_INTEREST_VALUE;
                 }
@@ -80,7 +83,7 @@ public class UserService {
                 break;
             case "INTERNATIONAL":
                 Integer internationalInterest = reader.getInternationalInterest();
-                internationalInterest = internationalInterest + INTEREST_INCREMENT_VALUE;
+                internationalInterest = internationalInterest + amountOfExtraInterest;
                 if(internationalInterest > MAX_INTEREST_VALUE) {
                     internationalInterest = MAX_INTEREST_VALUE;
                 }
@@ -88,7 +91,7 @@ public class UserService {
                 break;
             case "POLICE":
                 Integer policeInterest = reader.getPoliceInterest();
-                policeInterest = policeInterest + INTEREST_INCREMENT_VALUE;
+                policeInterest = policeInterest + amountOfExtraInterest;
                 if(policeInterest > MAX_INTEREST_VALUE) {
                     policeInterest = MAX_INTEREST_VALUE;
                 }

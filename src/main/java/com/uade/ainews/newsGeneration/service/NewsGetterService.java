@@ -4,7 +4,7 @@ import com.uade.ainews.newsGeneration.dto.News;
 import com.uade.ainews.newsGeneration.dto.Rss;
 import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.repository.NewsGenerationRepository;
-import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
+import com.uade.ainews.newsGeneration.repository.NewsRepository;
 import com.uade.ainews.newsGeneration.utils.ComparisonAlgorithm;
 import com.uade.ainews.newsGeneration.utils.KeywordFinder;
 import com.uade.ainews.newsGeneration.utils.SummarizeArticle;
@@ -40,7 +40,7 @@ public class NewsGetterService {
     public static final int TITLE_MIN_EXTENSION = 5;
 
     @Autowired
-    private SummarizedNewsRepository summarizedNewsRepository;
+    private NewsRepository newsRepository;
     @Autowired
     private NewsGenerationRepository newsGenerationRepository;
 
@@ -80,7 +80,7 @@ public class NewsGetterService {
                 }
                 String titleSummarized = SummarizeArticle.sumUp(String.valueOf(mergeSiblingTitles), TITLE_MAX_EXTENSION, TITLE_MIN_EXTENSION);
                 //Save on the db
-                summarizedNewsRepository.save(SummarizedNews.builder().title(titleSummarized).rawArticle(String.valueOf(mergeSiblingArticles)).releaseDate(LocalDateTime.now()).build());
+                newsRepository.save(SummarizedNews.builder().title(titleSummarized).rawArticle(String.valueOf(mergeSiblingArticles)).releaseDate(LocalDateTime.now()).build());
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
