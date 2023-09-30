@@ -2,10 +2,14 @@ package com.uade.ainews.newsGeneration.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.dto.User;
+import com.uade.ainews.newsGeneration.dto.UserStats;
 import com.uade.ainews.newsGeneration.security.Encoder;
 import com.uade.ainews.newsGeneration.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +24,6 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
 
-    // todo
-    // baja de cuenta,
-    // links a redes sociales
-    // descontar puntaje cuando no lee noticias (interes, no timepo)
-    // estadisticas
-    // forgot password
     @Autowired
     private UserService userService;
 
@@ -81,7 +79,21 @@ public class UserController {
         return ResponseEntity.ok().body("Read time updated.");
     }
 
+    @GetMapping("/stats")
+    public ResponseEntity<UserStats> getStatistics(
+            @RequestParam(name = "user", required = true) String userEmail)
+    {
+        UserStats userStats = userService.getReaderStats(userEmail);
+        return ResponseEntity.ok(userStats);
+    }
 
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<Object> deleteAccount(
+            @RequestParam(name = "userId", required = true) Long userId)
+    {
+        userService.deleteUserAccount(userId);
+        return ResponseEntity.ok().body("Account deleted successfully.");
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {

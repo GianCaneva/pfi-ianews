@@ -1,6 +1,7 @@
 package com.uade.ainews.newsGeneration.service;
 
 import com.uade.ainews.newsGeneration.dto.User;
+import com.uade.ainews.newsGeneration.dto.UserStats;
 import com.uade.ainews.newsGeneration.repository.UserRepository;
 import com.uade.ainews.newsGeneration.security.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -159,6 +159,39 @@ public class UserService {
             userRepository.save(specificUser);
         } else {
             throw new RuntimeException("Invalid Password. Please, retry");
+        }
+    }
+
+    public UserStats getReaderStats(String userEmail) {
+        User specificUser = getSpecificUser(userEmail);
+        return UserStats.builder()
+                .politicsInterest(specificUser.getPoliticsInterest())
+                .politicsTime(specificUser.getPoliticsTime())
+                .economyInterest(specificUser.getEconomyInterest())
+                .economyTime(specificUser.getEconomyTime())
+                .sportsInterest(specificUser.getSportsInterest())
+                .sportsTime(specificUser.getSportsTime())
+                .socialInterest(specificUser.getSocialInterest())
+                .socialTime(specificUser.getSocialTime())
+                .internationalInterest(specificUser.getInternationalInterest())
+                .internationalTime(specificUser.getInternationalTime())
+                .policeInterest(specificUser.getPoliceInterest())
+                .politicsTime(specificUser.getPoliticsTime())
+                .build();
+    }
+
+    public ResponseEntity<String> deleteUserAccount(Long userId) {
+        try {
+            // Checks if there is a user with that Id on database
+            if (userRepository.existsById(userId)) {
+                // Delete user by Id
+                userRepository.deleteById(userId);
+                return ResponseEntity.ok().body("User deleted successfully.");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error deleting user");
         }
     }
 }
