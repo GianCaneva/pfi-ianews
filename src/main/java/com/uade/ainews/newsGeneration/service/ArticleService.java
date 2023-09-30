@@ -12,7 +12,6 @@ import java.util.Optional;
 @Service
 public class ArticleService {
 
-    public static final int DEFAULT_WORDS_EXTENSION = 200;
     @Autowired
     private NewsService newsService;
 
@@ -23,6 +22,7 @@ public class ArticleService {
     public static final int EXTRA_CHARS_PER_EXTENSION = 100;
     public static final int EXTRA_MARGIN_ARTICLE_EXTENSION = 100;
     public static final int INTEREST_SECTION_INCREMENT_VALUE = 10;
+    public static final int DEFAULT_WORDS_EXTENSION = 100;
     ///////////////////////////////////////////////////////////////////////////
 
     public ArticleResponse readAnArticle(String userEmail, Integer newsId, Integer articleWordsExtension) {
@@ -34,8 +34,8 @@ public class ArticleService {
         String title = specificNewsRaw.getTitle();
 
         //Calculate article length per user
-        Integer minArticleExtension = findArticleExtension(reader, specificNewsRaw.getSection(), articleWordsExtension);
-        String articleSummarized = SummarizeArticle.sumUp(String.valueOf(specificNewsRaw), minArticleExtension + EXTRA_MARGIN_ARTICLE_EXTENSION, minArticleExtension);
+        Integer articleExtension = findArticleExtension(reader, specificNewsRaw.getSection(), articleWordsExtension);
+        String articleSummarized = SummarizeArticle.sumUp(String.valueOf(specificNewsRaw), articleExtension);
         return ArticleResponse.builder().title(title).article(articleSummarized).extension(articleWordsExtension).build();
     }
 
@@ -72,13 +72,13 @@ public class ArticleService {
     public Integer calculateWordCount(BigDecimal lectureTime) {
         int wordCount = 0;
         if (lectureTime.compareTo(BigDecimal.ZERO) >= 0 && lectureTime.compareTo(BigDecimal.valueOf(0.5)) <= 0) {
-            wordCount = 200;
+            wordCount = DEFAULT_WORDS_EXTENSION;
         } else if (lectureTime.compareTo(BigDecimal.valueOf(0.5)) > 0 && lectureTime.compareTo(BigDecimal.valueOf(1)) <= 0) {
-            wordCount = 300;
+            wordCount = 200;
         } else if (lectureTime.compareTo(BigDecimal.valueOf(1)) > 0 && lectureTime.compareTo(BigDecimal.valueOf(1.5)) <= 0) {
-            wordCount = 400;
+            wordCount = 300;
         } else if (lectureTime.compareTo(BigDecimal.valueOf(1.5)) > 0) {
-            wordCount = 500;
+            wordCount = 400;
         } else {
             wordCount = DEFAULT_WORDS_EXTENSION;
         }
