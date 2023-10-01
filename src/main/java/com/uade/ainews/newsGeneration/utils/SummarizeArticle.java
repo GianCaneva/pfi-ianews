@@ -16,7 +16,7 @@ public class SummarizeArticle {
     public static String sumUp(String message, Integer textExtension) {
         String summary = "";
         try {
-            String restUrl = "http://localhost:8081/api/receive";
+            String restUrl = "http://localhost:8081/api/summarize/article";
             String response = sendTextViaRest(message, textExtension, restUrl);
             String decodedResponse = decodeUnicode(response);
             summary = extractResponse(decodedResponse);

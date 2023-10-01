@@ -18,9 +18,6 @@ public interface NewsRepository extends JpaRepository <SummarizedNews, Long>{
 
     Page<SummarizedNews> findBySection(String section, Pageable pageable);
 
-
-
-
 }
 
 

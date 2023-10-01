@@ -30,7 +30,10 @@ public class NewsService {
 
     private Page<SummarizedNews> getAllCurrentNews(PageRequest pageRequest){
         LocalDateTime twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
-        return newsRepository.findAllCreatedWithinLast24Hours(twentyFourHoursAgo, pageRequest);
+        //Only returns news created last 24hs
+        //return newsRepository.findAllCreatedWithinLast24Hours(twentyFourHoursAgo, pageRequest);
+        //Returns all news created
+        return newsRepository.findAll(pageRequest);
     }
 
     public Page<SummarizedNews> getHomeNews(String userEmail, PageRequest pageRequest) {
