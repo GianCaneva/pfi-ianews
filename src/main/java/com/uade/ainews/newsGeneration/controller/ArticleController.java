@@ -19,7 +19,6 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-
     @GetMapping("/getArticle")
     public ResponseEntity<ArticleResponse> getArticle(
             @RequestParam(name = "user") String userEmail,
@@ -32,5 +31,4 @@ public class ArticleController {
         ArticleResponse newsSummarized = articleService.readAnArticle(userEmail, newsId, extension);
         return ResponseEntity.ok(newsSummarized);
     }
-
 }

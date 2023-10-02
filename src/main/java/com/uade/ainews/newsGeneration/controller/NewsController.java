@@ -30,7 +30,7 @@ public class NewsController {
     @GetMapping("/section")
     public ResponseEntity<Page<SummarizedNews>> getSection(
             @RequestParam(name = "user", required = true) String userEmail,
-            @RequestParam(name = "category", required = false) String section,
+            @RequestParam(name = "section", required = false) String section,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
 
@@ -38,8 +38,4 @@ public class NewsController {
         Page<SummarizedNews> newsPage = newsService.getNewsBySection(userEmail, section, pageRequest);
         return ResponseEntity.ok(newsPage);
     }
-
-
-
-
 }

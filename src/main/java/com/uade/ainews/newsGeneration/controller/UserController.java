@@ -65,7 +65,7 @@ public class UserController {
         return ResponseEntity.ok().body("User subscribed to the newsletter.");
     }
 
-    @PostMapping("/readTimeBySection")
+    @PostMapping("/modifyReadTime")
     public ResponseEntity<Object> updateReadTime(@RequestBody Map<String, String> requestBody) {
         try {
             String email = requestBody.get("email");

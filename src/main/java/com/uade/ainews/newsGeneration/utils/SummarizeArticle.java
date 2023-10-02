@@ -18,8 +18,7 @@ public class SummarizeArticle {
         try {
             String restUrl = "http://localhost:8081/api/summarize/article";
             String response = sendTextViaRest(message, textExtension, restUrl);
-            String decodedResponse = decodeUnicode(response);
-            summary = extractResponse(decodedResponse);
+            summary = decodeUnicode(response);
 
         } catch (Exception e) {
             System.err.println("Error al enviar el texto: " + e.getMessage());
@@ -34,7 +33,6 @@ public class SummarizeArticle {
         URL url = new URL(urlWithParams);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
 
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
@@ -56,7 +54,7 @@ public class SummarizeArticle {
             while ((line = br.readLine()) != null) {
                 response.append(line);
             }
-            return response.toString();
+            return response.toString().substring(1, response.length()-1);
         }
     }
 

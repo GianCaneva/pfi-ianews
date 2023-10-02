@@ -64,7 +64,7 @@ public class NewsService {
                 filteredNews.add(news);
                 sectionCount.put(section, countShown + 1);
             }else {
-                notShownSectionCount.put(section, countShown + 1);
+                notShownSectionCount.put(section, countNotShown + 1);
                 if (countShown + countShown == interestThreshold){
                     sectionCount.put(section, 0);
                     notShownSectionCount.put(section, 0);
@@ -83,25 +83,25 @@ public class NewsService {
         // Calculate the interest threshold based on the user's interest in section
         int threshold;
         if (userInterest >= 90) {
-            threshold = 0;
-        } else if (userInterest >= 80) {
-            threshold = 1;
-        } else if (userInterest >= 70) {
-            threshold = 2;
-        } else if (userInterest >= 60) {
-            threshold = 3;
-        } else if (userInterest >= 50) {
-            threshold = 4;
-        } else if (userInterest >= 40) {
-            threshold = 5;
-        } else if (userInterest >= 30) {
-            threshold = 6;
-        } else if (userInterest >= 20) {
-            threshold = 7;
-        } else if (userInterest >= 10) {
-            threshold = 8;
-        } else {
             threshold = 9;
+        } else if (userInterest >= 80) {
+            threshold = 8;
+        } else if (userInterest >= 70) {
+            threshold = 7;
+        } else if (userInterest >= 60) {
+            threshold = 6;
+        } else if (userInterest >= 50) {
+            threshold = 5;
+        } else if (userInterest >= 40) {
+            threshold = 4;
+        } else if (userInterest >= 30) {
+            threshold = 3;
+        } else if (userInterest >= 20) {
+            threshold = 2;
+        } else if (userInterest >= 10) {
+            threshold = 1;
+        } else {
+            threshold = 1;
         }
 
         return threshold;

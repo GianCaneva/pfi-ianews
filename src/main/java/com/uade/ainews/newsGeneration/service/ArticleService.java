@@ -35,7 +35,7 @@ public class ArticleService {
 
         //Calculate article length per user
         Integer articleExtension = findArticleExtension(reader, specificNewsRaw.getSection(), articleWordsExtension);
-        String articleSummarized = SummarizeArticle.sumUp(String.valueOf(specificNewsRaw), articleExtension);
+        String articleSummarized = SummarizeArticle.sumUp(String.valueOf(specificNewsRaw.getRawArticle()), articleExtension);
         return ArticleResponse.builder().title(title).article(articleSummarized).extension(articleWordsExtension).build();
     }
 
