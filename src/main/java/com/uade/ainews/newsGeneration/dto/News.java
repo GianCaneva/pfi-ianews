@@ -24,9 +24,9 @@ public class News {
     private List<String> keywords;
     @Column
     private String section;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String title;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String article;
     @Column
     private String merged;

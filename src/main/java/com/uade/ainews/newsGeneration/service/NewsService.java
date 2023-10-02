@@ -2,7 +2,7 @@ package com.uade.ainews.newsGeneration.service;
 
 import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.dto.User;
-import com.uade.ainews.newsGeneration.repository.SummarizedNewsRepository;
+import com.uade.ainews.newsGeneration.repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -10,34 +10,40 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class OfferNewsService {
+public class NewsService {
 
     @Autowired
-    private SummarizedNewsRepository summarizedNewsRepository;
+    private NewsRepository newsRepository;
     @Autowired
     private UserService userService;
 
+    //////////////////////////////// CONSTANTS ////////////////////////////////
+    public static final int INTEREST_SECTION_INCREMENT_VALUE = 5;
+    ///////////////////////////////////////////////////////////////////////////
+
+    public SummarizedNews getSpecificNews(Long newsId) {
+        return newsRepository.findById(newsId).orElseThrow(() -> new NoSuchElementException("News not found: " + newsId));
+    }
 
     private Page<SummarizedNews> getAllCurrentNews(PageRequest pageRequest){
         LocalDateTime twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
-        return summarizedNewsRepository.findAllCreatedWithinLast24Hours(twentyFourHoursAgo, pageRequest);
+        //Only returns news created last 24hs
+        //return newsRepository.findAllCreatedWithinLast24Hours(twentyFourHoursAgo, pageRequest);
+        //Returns all news created
+        return newsRepository.findAll(pageRequest);
     }
 
-
-    public Page<SummarizedNews> getNews(String userEmail, PageRequest pageRequest) {
+    public Page<SummarizedNews> getHomeNews(String userEmail, PageRequest pageRequest) {
         User specificUser = userService.getSpecificUser(userEmail);
         return filterByInterest(specificUser, pageRequest);
     }
 
     public Page<SummarizedNews> getNewsBySection(String userEmail, String section, PageRequest pageRequest) {
-        userService.addInterest(userEmail, section);
-        return summarizedNewsRepository.findBySection(section, pageRequest);
+        userService.addInterest(userEmail, section, INTEREST_SECTION_INCREMENT_VALUE);
+        return newsRepository.findBySection(section, pageRequest);
     }
 
     private Page<SummarizedNews> filterByInterest(User reader, PageRequest pageRequest) {
@@ -58,7 +64,7 @@ public class OfferNewsService {
                 filteredNews.add(news);
                 sectionCount.put(section, countShown + 1);
             }else {
-                notShownSectionCount.put(section, countShown + 1);
+                notShownSectionCount.put(section, countNotShown + 1);
                 if (countShown + countShown == interestThreshold){
                     sectionCount.put(section, 0);
                     notShownSectionCount.put(section, 0);
@@ -77,25 +83,25 @@ public class OfferNewsService {
         // Calculate the interest threshold based on the user's interest in section
         int threshold;
         if (userInterest >= 90) {
-            threshold = 0;
-        } else if (userInterest >= 80) {
-            threshold = 1;
-        } else if (userInterest >= 70) {
-            threshold = 2;
-        } else if (userInterest >= 60) {
-            threshold = 3;
-        } else if (userInterest >= 50) {
-            threshold = 4;
-        } else if (userInterest >= 40) {
-            threshold = 5;
-        } else if (userInterest >= 30) {
-            threshold = 6;
-        } else if (userInterest >= 20) {
-            threshold = 7;
-        } else if (userInterest >= 10) {
-            threshold = 8;
-        } else {
             threshold = 9;
+        } else if (userInterest >= 80) {
+            threshold = 8;
+        } else if (userInterest >= 70) {
+            threshold = 7;
+        } else if (userInterest >= 60) {
+            threshold = 6;
+        } else if (userInterest >= 50) {
+            threshold = 5;
+        } else if (userInterest >= 40) {
+            threshold = 4;
+        } else if (userInterest >= 30) {
+            threshold = 3;
+        } else if (userInterest >= 20) {
+            threshold = 2;
+        } else if (userInterest >= 10) {
+            threshold = 1;
+        } else {
+            threshold = 1;
         }
 
         return threshold;
@@ -128,6 +134,7 @@ public class OfferNewsService {
         }
         return interestInSection;
     }
+
 
 
 }

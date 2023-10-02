@@ -13,13 +13,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 public class SummarizeArticle {
 
-    public static String sumUp(String message, Integer maxTextExtension, Integer minTextExtension) {
+    public static String sumUp(String message, Integer textExtension) {
         String summary = "";
         try {
-            String restUrl = "http://localhost:8081/api/receive";
-            String response = sendTextViaRest(message, maxTextExtension, minTextExtension, restUrl);
-            String decodedResponse = decodeUnicode(response);
-            summary = extractResponse(decodedResponse);
+            String restUrl = "http://localhost:8081/api/summarize/article";
+            String response = sendTextViaRest(message, textExtension, restUrl);
+            summary = decodeUnicode(response);
 
         } catch (Exception e) {
             System.err.println("Error al enviar el texto: " + e.getMessage());
@@ -28,13 +27,12 @@ public class SummarizeArticle {
     }
 
 
-    public static String sendTextViaRest(String text, Integer maxTextExtension, Integer minTextExtension, String restUrl) throws IOException {
+    public static String sendTextViaRest(String text, Integer textExtension, String restUrl) throws IOException {
         // Construir la URL con el parámetro textExtension
-        String urlWithParams = restUrl + "?maxTextExtension=" + maxTextExtension + "&minTextExtension=" + minTextExtension;
+        String urlWithParams = restUrl + "?textExtension=" + textExtension;
         URL url = new URL(urlWithParams);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
 
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
@@ -47,7 +45,7 @@ public class SummarizeArticle {
 
         int responseCode = connection.getResponseCode();
         if (responseCode != HttpURLConnection.HTTP_OK) {
-            throw new RuntimeException("Error en la respuesta del servidor: " + responseCode);
+            throw new RuntimeException("Server error: " + responseCode);
         }
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -56,7 +54,7 @@ public class SummarizeArticle {
             while ((line = br.readLine()) != null) {
                 response.append(line);
             }
-            return response.toString();
+            return response.toString().substring(1, response.length()-1);
         }
     }
 

@@ -19,9 +19,9 @@ public class SummarizedNews {
     private Long id;
     @Column
     private String section;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String title;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String rawArticle;
     @Column
     private String summary;
