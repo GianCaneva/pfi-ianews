@@ -36,13 +36,13 @@ public class NewsService {
         return newsRepository.findAll(pageRequest);
     }
 
-    public Page<SummarizedNews> getHomeNews(String userEmail, PageRequest pageRequest) {
-        User specificUser = userService.getSpecificUser(userEmail);
+    public Page<SummarizedNews> getHomeNews(Long userId, PageRequest pageRequest) {
+        User specificUser = userService.getSpecificUserById(userId);
         return filterByInterest(specificUser, pageRequest);
     }
 
-    public Page<SummarizedNews> getNewsBySection(String userEmail, String section, PageRequest pageRequest) {
-        userService.addInterest(userEmail, section, INTEREST_SECTION_INCREMENT_VALUE);
+    public Page<SummarizedNews> getNewsBySection(Long userId, String section, PageRequest pageRequest) {
+        userService.addInterest(userId, section, INTEREST_SECTION_INCREMENT_VALUE);
         return newsRepository.findBySection(section, pageRequest);
     }
 

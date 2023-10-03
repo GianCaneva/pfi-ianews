@@ -1,15 +1,10 @@
 package com.uade.ainews.newsGeneration.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.uade.ainews.newsGeneration.dto.SummarizedNews;
 import com.uade.ainews.newsGeneration.dto.User;
 import com.uade.ainews.newsGeneration.dto.UserStats;
 import com.uade.ainews.newsGeneration.security.Encoder;
 import com.uade.ainews.newsGeneration.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +22,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/getUser")
+    public ResponseEntity<Object> login(@RequestParam Map<String, String> requestBody) {
+        try {
+            String email = requestBody.get("email");
+            User specificUser = userService.getSpecificUserByEmail(email);
+            return ResponseEntity.ok(specificUser);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity<Object> registerUser(@RequestBody Map<String, String> requestBody) {
         try {
@@ -43,11 +49,11 @@ public class UserController {
     @PostMapping("/changePassword")
     public ResponseEntity<Object> updatePassword(@RequestBody Map<String, String> requestBody) {
         try {
-            String email = requestBody.get("email");
+            Long userId = Long.valueOf(requestBody.get("userId"));
             String oldPassword = requestBody.get("oldPassword");
             String newPassword = requestBody.get("newPassword");
             Encoder encoder = Encoder.getInstance();
-            userService.changeUserPassword(email, encoder.encode(oldPassword), encoder.encode(newPassword));
+            userService.changeUserPassword(userId, oldPassword, encoder.encode(newPassword));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -57,8 +63,8 @@ public class UserController {
     @PostMapping("/subscribeNewsletter")
     public ResponseEntity<Object> subscribeNewsletter(@RequestBody Map<String, String> requestBody) {
         try {
-            String email = requestBody.get("email");
-            userService.subscribeNewsletter(email);
+            Long userId = Long.valueOf(requestBody.get("userId"));
+            userService.subscribeNewsletter(userId);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -68,11 +74,11 @@ public class UserController {
     @PostMapping("/modifyReadTime")
     public ResponseEntity<Object> updateReadTime(@RequestBody Map<String, String> requestBody) {
         try {
-            String email = requestBody.get("email");
+            Long userId = Long.valueOf(requestBody.get("userId"));
             String section = requestBody.get("section");
             String timeString = requestBody.get("time");
             BigDecimal timeBigDecimal = new BigDecimal(timeString);
-            userService.updateLectureTimeForUser(email, section, timeBigDecimal);
+            userService.updateLectureTimeForUser(userId, section, timeBigDecimal);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -81,9 +87,9 @@ public class UserController {
 
     @GetMapping("/stats")
     public ResponseEntity<UserStats> getStatistics(
-            @RequestParam(name = "user", required = true) String userEmail)
+            @RequestParam(name = "userId", required = true) Long userId)
     {
-        UserStats userStats = userService.getReaderStats(userEmail);
+        UserStats userStats = userService.getReaderStats(userId);
         return ResponseEntity.ok(userStats);
     }
 

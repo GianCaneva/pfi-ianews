@@ -18,24 +18,24 @@ public class NewsController {
 
     @GetMapping("/home")
     public ResponseEntity<Page<SummarizedNews>> getFeed(
-            @RequestParam(name = "user", required = true) String userEmail,
+            @RequestParam(name = "userId", required = true) Long userId,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
 
         PageRequest pageRequest = PageRequest.of(page, pageSize);
-        Page<SummarizedNews> newsPage = newsService.getHomeNews(userEmail, pageRequest);
+        Page<SummarizedNews> newsPage = newsService.getHomeNews(userId, pageRequest);
         return ResponseEntity.ok(newsPage);
     }
 
     @GetMapping("/section")
     public ResponseEntity<Page<SummarizedNews>> getSection(
-            @RequestParam(name = "user", required = true) String userEmail,
+            @RequestParam(name = "userId", required = true) Long userId,
             @RequestParam(name = "section", required = false) String section,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
 
         PageRequest pageRequest = PageRequest.of(page, pageSize);
-        Page<SummarizedNews> newsPage = newsService.getNewsBySection(userEmail, section, pageRequest);
+        Page<SummarizedNews> newsPage = newsService.getNewsBySection(userId, section, pageRequest);
         return ResponseEntity.ok(newsPage);
     }
 }

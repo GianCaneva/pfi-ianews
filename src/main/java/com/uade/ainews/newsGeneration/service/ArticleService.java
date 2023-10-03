@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+
 @Service
 public class ArticleService {
 
@@ -25,12 +25,12 @@ public class ArticleService {
     public static final int DEFAULT_WORDS_EXTENSION = 100;
     ///////////////////////////////////////////////////////////////////////////
 
-    public ArticleResponse readAnArticle(String userEmail, Integer newsId, Integer articleWordsExtension) {
-        User reader = userService.getSpecificUser(userEmail);
+    public ArticleResponse readAnArticle(Long userId, Integer newsId, Integer articleWordsExtension) {
+        User reader = userService.getSpecificUserById(userId);
         SummarizedNews specificNewsRaw = newsService.getSpecificNews(Long.valueOf(newsId));
 
         //set user interest to specific section
-        userService.addInterest(userEmail, specificNewsRaw.getSection(), INTEREST_SECTION_INCREMENT_VALUE);
+        userService.addInterest(userId, specificNewsRaw.getSection(), INTEREST_SECTION_INCREMENT_VALUE);
         String title = specificNewsRaw.getTitle();
 
         //Calculate article length per user

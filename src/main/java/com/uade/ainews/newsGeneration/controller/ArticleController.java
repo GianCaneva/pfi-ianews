@@ -21,14 +21,14 @@ public class ArticleController {
 
     @GetMapping("/getArticle")
     public ResponseEntity<ArticleResponse> getArticle(
-            @RequestParam(name = "user") String userEmail,
+            @RequestParam(name = "userId") Long userId,
             @RequestParam(name = "newsId") Integer newsId,
             @RequestParam(name = "extension", defaultValue = "0") Integer extension
     ) {
         //If extension parameter is lower than 0 or grater than 3, sets 0 as default
         extension = (extension >= 0 && extension <= 3) ? extension : 0;
 
-        ArticleResponse newsSummarized = articleService.readAnArticle(userEmail, newsId, extension);
+        ArticleResponse newsSummarized = articleService.readAnArticle(userId, newsId, extension);
         return ResponseEntity.ok(newsSummarized);
     }
 }

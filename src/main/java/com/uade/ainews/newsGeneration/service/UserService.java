@@ -22,8 +22,8 @@ public class UserService {
     public static final int MAX_INTEREST_VALUE = 100;
     ///////////////////////////////////////////////////////////////////////////
 
-    public void addInterest(String userEmail, String section, Integer amountOfExtraInterest) {
-        getUserInterestInSection(getSpecificUser(userEmail), section, amountOfExtraInterest);
+    public void addInterest(Long userId, String section, Integer amountOfExtraInterest) {
+        getUserInterestInSection(getSpecificUserById(userId), section, amountOfExtraInterest);
     }
 
     public void registerUser(String email, String password) {
@@ -45,8 +45,11 @@ public class UserService {
         }
     }
 
-    public User getSpecificUser(String email) {
+    public User getSpecificUserByEmail(String email) {
         return userRepository.findOneByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found: " + email));
+    }
+    public User getSpecificUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User id found: " + userId));
     }
 
     private void getUserInterestInSection(User reader, String section, Integer amountOfExtraInterest) {
@@ -105,14 +108,14 @@ public class UserService {
         userRepository.save(reader);
     }
 
-    public void subscribeNewsletter(String email) {
-        User specificUser = getSpecificUser(email);
-        specificUser.setNewsletter(true);
+    public void subscribeNewsletter(Long userId) {
+        User specificUser = getSpecificUserById(userId);
+        specificUser.setNewsletter("Y");
         userRepository.save(specificUser);
     }
 
-    public void updateLectureTimeForUser(String email, String section, BigDecimal lastReadTime) {
-        User reader = getSpecificUser(email);
+    public void updateLectureTimeForUser(Long userId, String section, BigDecimal lastReadTime) {
+        User reader = getSpecificUserById(userId);
 
         switch (section){
             case "POLITICS":
@@ -151,19 +154,19 @@ public class UserService {
         userRepository.save(reader);
     }
 
-    public void changeUserPassword(String email, String oldPassword, String newPassword) {
-        User specificUser = getSpecificUser(email);
+    public void changeUserPassword(Long userId, String oldPassword, String newPassword) {
+        User specificUser = getSpecificUserById(userId);
         Encoder encoder = Encoder.getInstance();
         if (encoder.matches(oldPassword, specificUser.getPassword())) {
             specificUser.setPassword(newPassword);
             userRepository.save(specificUser);
         } else {
-            throw new RuntimeException("Invalid Password. Please, retry");
+            throw new RuntimeException("Invalid Username or Password. Please, retry");
         }
     }
 
-    public UserStats getReaderStats(String userEmail) {
-        User specificUser = getSpecificUser(userEmail);
+    public UserStats getReaderStats(Long userId) {
+        User specificUser = getSpecificUserById(userId);
         return UserStats.builder()
                 .politicsInterest(specificUser.getPoliticsInterest())
                 .politicsTime(specificUser.getPoliticsTime())

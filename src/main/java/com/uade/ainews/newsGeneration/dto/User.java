@@ -20,8 +20,8 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean newsletter;
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'N'")
+    private String newsletter;
     @Column(columnDefinition = "INT DEFAULT 100")
     private Integer politicsInterest;
     @Column(columnDefinition = "DECIMAL(10,2) DEFAULT 100.00")
