@@ -29,8 +29,9 @@ public class UserService {
     public void registerUser(String email, String password) {
         // Check if the mail already exists
         if (userRepository.findByEmail(email) == null) {
+            User newUser = new User(email, password);
             // Encoding the password before storing it in the database
-            userRepository.save(User.builder().email(email).password(password).build());
+            userRepository.save(newUser);
         } else {
             throw new RuntimeException("The email is already registered!");
         }

@@ -47,4 +47,31 @@ public class User {
     @Column(columnDefinition = "DECIMAL(10,2) DEFAULT 100.00")
     private BigDecimal policeTime;
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+        // Establece los valores predeterminados
+        this.newsletter = "N";
+        this.politicsInterest = 100;
+        this.politicsTime = BigDecimal.valueOf(100.00);
+
+        this.politicsInterest = 100;
+        this.politicsTime = BigDecimal.valueOf(100.00);
+
+        this.economyInterest = 100;
+        this.economyTime = BigDecimal.valueOf(100.00);
+
+        this.sportsInterest = 100;
+        this.sportsTime = BigDecimal.valueOf(100.00);
+
+        this.socialInterest = 100;
+        this.socialTime = BigDecimal.valueOf(100.00);
+
+        this.internationalInterest = 100;
+        this.internationalTime = BigDecimal.valueOf(100.00);
+
+        this.policeInterest = 100;
+        this.policeTime = BigDecimal.valueOf(100.00);
+
+    }
 }
