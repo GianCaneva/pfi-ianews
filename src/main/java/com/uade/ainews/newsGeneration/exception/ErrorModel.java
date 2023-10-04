@@ -1,4 +1,4 @@
-package com.uade.ainews.newsGeneration.excepcion;
+package com.uade.ainews.newsGeneration.exception;
 
 import java.util.Date;
 
