@@ -198,4 +198,21 @@ public class UserService {
             return ResponseEntity.badRequest().body("Error deleting user");
         }
     }
+
+    public void updateInterestSection(Long userId,
+                                      int politicsSectionInterest,
+                                      int economySectionInterest,
+                                      int sportsSectionInterest,
+                                      int socialSectionInterest,
+                                      int internationalSectionInterest,
+                                      int policeSectionInterest) {
+        User specificUserById = getSpecificUserById(userId);
+        specificUserById.setPoliticsInterest(politicsSectionInterest);
+        specificUserById.setEconomyInterest(economySectionInterest);
+        specificUserById.setSportsInterest(sportsSectionInterest);
+        specificUserById.setSocialInterest(socialSectionInterest);
+        specificUserById.setInternationalInterest(internationalSectionInterest);
+        specificUserById.setPoliceInterest(policeSectionInterest);
+        userRepository.save(specificUserById);
+    }
 }

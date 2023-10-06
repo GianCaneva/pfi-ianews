@@ -85,6 +85,32 @@ public class UserController {
         return ResponseEntity.ok().body("Read time updated.");
     }
 
+    @PostMapping("/modifyInterestSection")
+    public ResponseEntity<Object> updateInterest(@RequestBody Map<String, String> requestBody) {
+        try {
+            Long userId = Long.valueOf(requestBody.get("userId"));
+            int politicsSectionInterest = Integer.parseInt(requestBody.get("politicsInterest"));
+            int economySectionInterest = Integer.parseInt(requestBody.get("economyInterest"));
+            int sportsSectionInterest = Integer.parseInt(requestBody.get("sportsInterest"));
+            int socialSectionInterest = Integer.parseInt(requestBody.get("socialInterest"));
+            int internationalSectionInterest = Integer.parseInt(requestBody.get("internationalInterest"));
+            int policeSectionInterest = Integer.parseInt(requestBody.get("policeInterest"));
+
+            userService.updateInterestSection(
+                    userId,
+                    politicsSectionInterest,
+                    economySectionInterest,
+                    sportsSectionInterest,
+                    socialSectionInterest,
+                    internationalSectionInterest,
+                    policeSectionInterest
+            );
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().body("Read time updated.");
+    }
+
     @GetMapping("/stats")
     public ResponseEntity<UserStats> getStatistics(
             @RequestParam(name = "userId", required = true) Long userId)
