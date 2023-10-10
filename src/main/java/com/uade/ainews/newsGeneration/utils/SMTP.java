@@ -29,7 +29,7 @@ public class SMTP {
             Message message = new MimeMessage(session);
 
             // Establece el remitente
-            message.setFrom(new InternetAddress("tu_correo@example.com")); // Cambia a tu dirección de correo
+            message.setFrom(new InternetAddress(destinatario)); // Cambia a tu dirección de correo
 
             // Establece el destinatario
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));

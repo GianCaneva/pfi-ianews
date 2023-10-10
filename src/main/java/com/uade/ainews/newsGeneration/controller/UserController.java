@@ -60,8 +60,8 @@ public class UserController {
         }
         return ResponseEntity.ok().body("New password updated successfully.");
     }
-    @PostMapping("/forgetPassword")
-    public ResponseEntity<Object> recoveryPassword(@RequestBody Map<String, String> requestBody) {
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<Object> recoverPassword(@RequestBody Map<String, String> requestBody) {
         try {
             String email = requestBody.get("email");
             userService.recoverPassword(email);
