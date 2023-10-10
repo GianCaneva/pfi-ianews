@@ -35,6 +35,7 @@ public class NewsController {
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
 
         PageRequest pageRequest = PageRequest.of(page, pageSize);
+
         Page<SummarizedNews> newsPage = newsService.getNewsBySection(userId, section, pageRequest);
         return ResponseEntity.ok(newsPage);
     }

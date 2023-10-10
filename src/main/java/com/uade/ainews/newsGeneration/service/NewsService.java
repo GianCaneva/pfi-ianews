@@ -71,9 +71,8 @@ public class NewsService {
                 }
             }
         }
-        int startIndex = pageRequest.getPageNumber() * pageRequest.getPageSize();
-        int endIndex = Math.min(startIndex + pageRequest.getPageSize(), filteredNews.size());
-        return new PageImpl<>(filteredNews.subList(startIndex, endIndex), pageRequest, filteredNews.size());
+        List<SummarizedNews> summarizedNews = allCurrentNews.stream().toList();
+        return new PageImpl<>(filteredNews, pageRequest, summarizedNews.size());
     }
 
     private int calculateInterestThreshold(User reader, String section) {
