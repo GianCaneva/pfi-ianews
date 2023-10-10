@@ -15,6 +15,7 @@ import java.util.Map;
 //development
 //http://localhost:8080/news/user/register?email=gfocaneva@gmail.com&password=1234
 //http://localhost:8080/news/user/all
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -50,10 +51,20 @@ public class UserController {
     public ResponseEntity<Object> updatePassword(@RequestBody Map<String, String> requestBody) {
         try {
             Long userId = Long.valueOf(requestBody.get("userId"));
-            String oldPassword = requestBody.get("oldPassword");
+            String currentPassword = requestBody.get("currentPassword");
             String newPassword = requestBody.get("newPassword");
             Encoder encoder = Encoder.getInstance();
-            userService.changeUserPassword(userId, oldPassword, encoder.encode(newPassword));
+            userService.changeUserPassword(userId, currentPassword, encoder.encode(newPassword));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().body("New password updated successfully.");
+    }
+    @PostMapping("/forgetPassword")
+    public ResponseEntity<Object> recoveryPassword(@RequestBody Map<String, String> requestBody) {
+        try {
+            String email = requestBody.get("email");
+            userService.recoverPassword(email);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

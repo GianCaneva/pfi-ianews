@@ -4,6 +4,7 @@ import com.uade.ainews.newsGeneration.dto.User;
 import com.uade.ainews.newsGeneration.dto.UserStats;
 import com.uade.ainews.newsGeneration.repository.UserRepository;
 import com.uade.ainews.newsGeneration.security.Encoder;
+import com.uade.ainews.newsGeneration.utils.SMTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
+
+
 
 @Service
 public class UserService {
@@ -155,10 +159,10 @@ public class UserService {
         userRepository.save(reader);
     }
 
-    public void changeUserPassword(Long userId, String oldPassword, String newPassword) {
+    public void changeUserPassword(Long userId, String currentPassword, String newPassword) {
         User specificUser = getSpecificUserById(userId);
         Encoder encoder = Encoder.getInstance();
-        if (encoder.matches(oldPassword, specificUser.getPassword())) {
+        if (encoder.matches(currentPassword, specificUser.getPassword())) {
             specificUser.setPassword(newPassword);
             userRepository.save(specificUser);
         } else {
@@ -215,4 +219,23 @@ public class UserService {
         specificUserById.setPoliceInterest(policeSectionInterest);
         userRepository.save(specificUserById);
     }
+
+    public void recoverPassword(String email) {
+        User specificUser = getSpecificUserByEmail(email);
+        Encoder encoder = Encoder.getInstance();
+        Random random = new Random();
+        String newPassword = String.valueOf(random.nextInt(900000) + 100000);
+        specificUser.setPassword(encoder.encode(newPassword));
+        userRepository.save(specificUser);
+        //send email with the new password
+
+        String asunto = "Reset your password";
+        String mensaje = "Your new password is:"+newPassword;
+
+
+        SMTP.sendEmail(email, asunto, mensaje);
+
+    }
+
+
 }
