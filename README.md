@@ -40,7 +40,7 @@ Alternativamente, puede ejecutar el método principal en Main.java en su IDE ele
 
 ## Uso
 
-* Para comenzar a utilizar los servicios de la aplicacion debe crearse un usuario, consultando al servicio de tipo POST: free/user/register/
+* Para comenzar a utilizar los servicios de la aplicación debe crearse un usuario, consultando al servicio de tipo POST: free/user/register/
 ```json
 {
     "email": "your_email@gmail.com",
@@ -48,8 +48,15 @@ Alternativamente, puede ejecutar el método principal en Main.java en su IDE ele
 }
 ```
 * Una vez realizado el registro, debe procederse a la consulta de tipo POST para el login:/free/login
-Este proceso devolvera un token dentro del header. Debe buscar el atributo "Authorization" y ver su valor. 
+Este proceso devolvera un token dentro del encabezado de la consulta. Debe buscar el atributo "Authorization" y ver su valor. 
 Este valor esta conformado de la siguiente forma "Bearar {TOKEN}". Es el TOKEN lo que se debe incluir en cada solicitud al backend para garantizar la correcta respuesta.
+
+## Cloud
+
+El presente servicio se encuentra desplegado en un servicio cloud de Google (Google Cloud), el cual se puede acceder a través del siguiente link.
+
+`https://service-app-dot-unchainednews.rj.r.appspot.com`
+
 
 ## Autores
 Caneva, Gianfranco
