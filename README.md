@@ -1,9 +1,9 @@
-# Unchained News 🟩![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+# Unchained News 🟩
 > Aplicación para la optimización de lectura de noticias digitales y libre de sesgos.
 ---
 ## Descripción 
 El presente codigo forma parte de un conjunto de servicios que, en conjunto, trabajan para conseguir el objetivo deseado.
-En particular, la presente aplicacion es la responsable de todo el flujo relacionado con el gestor de usuarios y gestor de noticias.
+En particular, la presente aplicación es el administrador de todo el flujo relacionado con el gestor de usuarios y gestor de noticias.
 Recibe las peticiones desde el front end, y es el responsable de comunicarse con otros servicios (como por ejemplo servicio de python o base de datos), procesar la informacion y devolverla de forma correcta.
 También se encarga de la validación de los datos que ingresan al sistema, como los que se devuelven, manteniendo a la base de datos en un estado consistente.
 
