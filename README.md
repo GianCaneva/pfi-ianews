@@ -2,26 +2,26 @@
 > Aplicación para la optimización de lectura de noticias digitales y libre de sesgos.
 ---
 ## Descripción 
-El presente codigo forma parte de un conjunto de servicios que, en conjunto, trabajan para conseguir el objetivo deseado.
+El presente código forma parte de una constelación de servicios que, en conjunto, trabajan para conseguir el objetivo deseado.
 En particular, la presente aplicación es el administrador de todo el flujo relacionado con el gestor de usuarios y gestor de noticias.
-Recibe las peticiones desde el front end, y es el responsable de comunicarse con otros servicios (como por ejemplo servicio de python o base de datos), procesar la informacion y devolverla de forma correcta.
+Recibe las peticiones desde el front end, y es el responsable de comunicarse con otros servicios (como por ejemplo servicio de python o base de datos), procesar la información y devolverla de forma correcta.
 También se encarga de la validación de los datos que ingresan al sistema, como los que se devuelven, manteniendo a la base de datos en un estado consistente.
 
 
 
 ## Pre-requisitos
 
-Este programa fue diseñado para ser utilizado con la siguientes especificaciones:
+Este programa fue diseñado para ser utilizado con las siguientes especificaciones:
 * [Amazon Corretto 17.0.7](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html)
 * [Maven 3.8.7](https://maven.apache.org/docs/3.8.7/release-notes.html)
 
 Si bien la utilización de otras versiones pueden permitir la ejecución del programa, no se puede asegurar su correcto funcionamiento.
 
-Además, el servicio de Python debe estar inicializado y ejecutandose correctamente.
+Además, el servicio de Python debe estar inicializado y ejecutándose correctamente.
 
 ## Instalación
 
-Use la librería de Maven para asegurarse para instalar las librerias necesarias mediante el comando a continuación.
+Use la librería de Maven para asegurarse para instalar las librerías necesarias mediante el comando a continuación.
 
 ```bash
 mvn clean install
@@ -48,8 +48,8 @@ Alternativamente, puede ejecutar el método principal en Main.java en su IDE ele
 }
 ```
 * Una vez realizado el registro, debe procederse a la consulta de tipo POST para el login:/free/login
-Este proceso devolvera un token dentro del encabezado de la consulta. Debe buscar el atributo "Authorization" y ver su valor. 
-Este valor esta conformado de la siguiente forma "Bearar {TOKEN}". Es el TOKEN lo que se debe incluir en cada solicitud al backend para garantizar la correcta respuesta.
+Este proceso devolverá un token dentro del encabezado de la consulta. Debe buscar el atributo "Authorization" y ver su valor. 
+Este valor está conformado de la siguiente forma "Bearar {TOKEN}". Es el TOKEN lo que se debe incluir en cada solicitud al backend para garantizar la correcta respuesta.
 
 ## Cloud
 
