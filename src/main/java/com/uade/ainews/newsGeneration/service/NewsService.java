@@ -24,28 +24,32 @@ public class NewsService {
     public static final int INTEREST_SECTION_INCREMENT_VALUE = 5;
     ///////////////////////////////////////////////////////////////////////////
 
+    // Given an Id, return a news from the database
     public SummarizedNews getSpecificNews(Long newsId) {
         return newsRepository.findById(newsId).orElseThrow(() -> new NoSuchElementException("News not found: " + newsId));
     }
 
-    private Page<SummarizedNews> getAllCurrentNews(PageRequest pageRequest){
+    // Only returns news created last 24hs(Currently returns all news due to lack of articles)
+    private Page<SummarizedNews> getAllCurrentNews(PageRequest pageRequest) {
         LocalDateTime twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
-        //Only returns news created last 24hs
         //return newsRepository.findAllCreatedWithinLast24Hours(twentyFourHoursAgo, pageRequest);
-        //Returns all news created
+        // Return all news created:
         return newsRepository.findAll(pageRequest);
     }
 
+    // Return news for home based on reader interests
     public Page<SummarizedNews> getHomeNews(Long userId, PageRequest pageRequest) {
         User specificUser = userService.getSpecificUserById(userId);
         return filterByInterest(specificUser, pageRequest);
     }
 
+    // Return all news for a specific section/category
     public Page<SummarizedNews> getNewsBySection(Long userId, String section, PageRequest pageRequest) {
         userService.addInterest(userId, section, INTEREST_SECTION_INCREMENT_VALUE);
         return newsRepository.findBySection(section, pageRequest);
     }
 
+    // Filter news that are not relevant to the user
     private Page<SummarizedNews> filterByInterest(User reader, PageRequest pageRequest) {
         Page<SummarizedNews> allCurrentNews = getAllCurrentNews(pageRequest);
         Map<String, Integer> sectionCount = new HashMap<>(); // Map to keep track of the news count by section
@@ -63,9 +67,9 @@ public class NewsService {
             if (countShown < interestThreshold) {
                 filteredNews.add(news);
                 sectionCount.put(section, countShown + 1);
-            }else {
+            } else {
                 notShownSectionCount.put(section, countNotShown + 1);
-                if (countShown + countShown == interestThreshold){
+                if (countShown + countShown == interestThreshold) {
                     sectionCount.put(section, 0);
                     notShownSectionCount.put(section, 0);
                 }
@@ -75,6 +79,7 @@ public class NewsService {
         return new PageImpl<>(filteredNews, pageRequest, summarizedNews.size());
     }
 
+    // Calculate the number of news items per section (every 10 news items) to be displayed to the user.
     private int calculateInterestThreshold(User reader, String section) {
         // Obtain user interest in the specific section
         int userInterest = getUserInterestInSection(reader, section);
@@ -106,9 +111,10 @@ public class NewsService {
         return threshold;
     }
 
+    // Get user interest per section/category
     private int getUserInterestInSection(User reader, String section) {
         Integer interestInSection = 0;
-        switch (section){
+        switch (section) {
             case "POLITICS":
                 interestInSection = reader.getPoliticsInterest();
                 break;
@@ -133,7 +139,5 @@ public class NewsService {
         }
         return interestInSection;
     }
-
-
 
 }

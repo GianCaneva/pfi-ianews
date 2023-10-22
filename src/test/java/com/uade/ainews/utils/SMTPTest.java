@@ -16,8 +16,6 @@ public class SMTPTest extends TestCase {
         String destinatario = "gfocaneva@gmail.com";
         String asunto = "Correo de prueba";
         String mensaje = "Hola, esto es un correo de prueba desde Java.";
-
-
         SMTP.sendEmail(destinatario, asunto, mensaje);
     }
 }

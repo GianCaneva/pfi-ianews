@@ -15,7 +15,6 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 
-
 @Service
 public class UserService {
 
@@ -26,10 +25,12 @@ public class UserService {
     public static final int MAX_INTEREST_VALUE = 100;
     ///////////////////////////////////////////////////////////////////////////
 
+    // Adding interest to a user for a specific section
     public void addInterest(Long userId, String section, Integer amountOfExtraInterest) {
         getUserInterestInSection(getSpecificUserById(userId), section, amountOfExtraInterest);
     }
 
+    // Register a new user to the system
     public void registerUser(String email, String password) {
         // Check if the mail already exists
         if (userRepository.findByEmail(email) == null) {
@@ -41,6 +42,7 @@ public class UserService {
         }
     }
 
+    // Return all user stored on the database
     public ResponseEntity<List<User>> getAllUser() {
         List<User> users = userRepository.findAll();
         if (!users.isEmpty()) {
@@ -50,19 +52,23 @@ public class UserService {
         }
     }
 
+    // Return a user from the database by his email
     public User getSpecificUserByEmail(String email) {
         return userRepository.findOneByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found: " + email));
     }
+
+    // Return a user from the database by his id
     public User getSpecificUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User id found: " + userId));
     }
 
+
     private void getUserInterestInSection(User reader, String section, Integer amountOfExtraInterest) {
-        switch (section){
+        switch (section) {
             case "POLITICS":
                 Integer politicsInterest = reader.getPoliticsInterest();
                 politicsInterest = politicsInterest + amountOfExtraInterest;
-                if(politicsInterest > MAX_INTEREST_VALUE) {
+                if (politicsInterest > MAX_INTEREST_VALUE) {
                     politicsInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setPoliticsInterest(politicsInterest);
@@ -70,7 +76,7 @@ public class UserService {
             case "ECONOMY":
                 Integer economyInterest = reader.getEconomyInterest();
                 economyInterest = economyInterest + amountOfExtraInterest;
-                if(economyInterest > MAX_INTEREST_VALUE) {
+                if (economyInterest > MAX_INTEREST_VALUE) {
                     economyInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setEconomyInterest(economyInterest);
@@ -78,7 +84,7 @@ public class UserService {
             case "SPORTS":
                 Integer sportsInterest = reader.getSportsInterest();
                 sportsInterest = sportsInterest + amountOfExtraInterest;
-                if(sportsInterest > MAX_INTEREST_VALUE) {
+                if (sportsInterest > MAX_INTEREST_VALUE) {
                     sportsInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setSportsInterest(sportsInterest);
@@ -86,7 +92,7 @@ public class UserService {
             case "SOCIAL":
                 Integer socialInterest = reader.getSocialInterest();
                 socialInterest = socialInterest + amountOfExtraInterest;
-                if(socialInterest > MAX_INTEREST_VALUE) {
+                if (socialInterest > MAX_INTEREST_VALUE) {
                     socialInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setSocialInterest(socialInterest);
@@ -94,7 +100,7 @@ public class UserService {
             case "INTERNATIONAL":
                 Integer internationalInterest = reader.getInternationalInterest();
                 internationalInterest = internationalInterest + amountOfExtraInterest;
-                if(internationalInterest > MAX_INTEREST_VALUE) {
+                if (internationalInterest > MAX_INTEREST_VALUE) {
                     internationalInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setInternationalInterest(internationalInterest);
@@ -102,7 +108,7 @@ public class UserService {
             case "POLICE":
                 Integer policeInterest = reader.getPoliceInterest();
                 policeInterest = policeInterest + amountOfExtraInterest;
-                if(policeInterest > MAX_INTEREST_VALUE) {
+                if (policeInterest > MAX_INTEREST_VALUE) {
                     policeInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setPoliceInterest(policeInterest);
@@ -113,16 +119,18 @@ public class UserService {
         userRepository.save(reader);
     }
 
+    // Subscribe a user to the newsletter
     public void subscribeNewsletter(Long userId) {
         User specificUser = getSpecificUserById(userId);
         specificUser.setNewsletter("Y");
         userRepository.save(specificUser);
     }
 
+    // After a user spent time reading an article, include that time per section in his daily average
     public void updateLectureTimeForUser(Long userId, String section, BigDecimal lastReadTime) {
         User reader = getSpecificUserById(userId);
 
-        switch (section){
+        switch (section) {
             case "POLITICS":
                 BigDecimal politicsTime = reader.getPoliticsTime();
                 politicsTime = (politicsTime.add(lastReadTime)).divide(BigDecimal.valueOf(2));
@@ -159,6 +167,7 @@ public class UserService {
         userRepository.save(reader);
     }
 
+    // Change password
     public void changeUserPassword(Long userId, String currentPassword, String newPassword) {
         User specificUser = getSpecificUserById(userId);
         Encoder encoder = Encoder.getInstance();
@@ -170,6 +179,7 @@ public class UserService {
         }
     }
 
+    // Retrieve all interest and reading time for an specific user
     public UserStats getReaderStats(Long userId) {
         User specificUser = getSpecificUserById(userId);
         return UserStats.builder()
@@ -188,6 +198,7 @@ public class UserService {
                 .build();
     }
 
+    // Permanently delete user account
     public ResponseEntity<String> deleteUserAccount(Long userId) {
         try {
             // Checks if there is a user with that Id on database
@@ -203,6 +214,7 @@ public class UserService {
         }
     }
 
+    // Update user's interest section
     public void updateInterestSection(Long userId,
                                       int politicsSectionInterest,
                                       int economySectionInterest,
@@ -220,6 +232,7 @@ public class UserService {
         userRepository.save(specificUserById);
     }
 
+    // Steps to retrieve password
     public void recoverPassword(String email) {
         User specificUser = getSpecificUserByEmail(email);
         Encoder encoder = Encoder.getInstance();
@@ -230,8 +243,7 @@ public class UserService {
         //send email with the new password
 
         String asunto = "Reset your password";
-        String mensaje = "Your new password is:"+newPassword;
-
+        String mensaje = "Your new password is:" + newPassword;
 
         SMTP.sendEmail(email, asunto, mensaje);
 

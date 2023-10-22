@@ -14,7 +14,6 @@ public class ArticleService {
 
     @Autowired
     private NewsService newsService;
-
     @Autowired
     private UserService userService;
 
@@ -25,20 +24,22 @@ public class ArticleService {
     public static final int DEFAULT_WORDS_EXTENSION = 100;
     ///////////////////////////////////////////////////////////////////////////
 
+    // Create a custom article base and the user and the section
     public ArticleResponse readAnArticle(Long userId, Integer newsId, Integer articleWordsExtension) {
         User reader = userService.getSpecificUserById(userId);
         SummarizedNews specificNewsRaw = newsService.getSpecificNews(Long.valueOf(newsId));
 
-        //set user interest to specific section
+        // Set user interest to specific section
         userService.addInterest(userId, specificNewsRaw.getSection(), INTEREST_SECTION_INCREMENT_VALUE);
         String title = specificNewsRaw.getTitle();
 
-        //Calculate article length per user
+        // Calculate article length per user
         Integer articleExtension = findArticleExtension(reader, specificNewsRaw.getSection(), articleWordsExtension);
         String articleSummarized = SummarizeArticle.sumUp(String.valueOf(specificNewsRaw.getRawArticle()), articleExtension);
         return ArticleResponse.builder().title(title).article(articleSummarized).extension(articleWordsExtension).build();
     }
 
+    // Determine the section for which the article extension is to be consulted.
     private Integer findArticleExtension(User reader, String section, Integer articleWordsExtension) {
 
         Integer amountOfWordsForArticle = 0;
@@ -69,6 +70,7 @@ public class ArticleService {
         return amountOfWordsForArticle + EXTRA_CHARS_PER_EXTENSION * articleWordsExtension;
     }
 
+    // Determine how long an article will be based on the reading time of a reader
     public Integer calculateWordCount(BigDecimal lectureTime) {
         int wordCount = 0;
         if (lectureTime.compareTo(BigDecimal.ZERO) >= 0 && lectureTime.compareTo(BigDecimal.valueOf(0.5)) <= 0) {

@@ -60,6 +60,7 @@ public class UserController {
         }
         return ResponseEntity.ok().body("New password updated successfully.");
     }
+
     @PostMapping("/forgotPassword")
     public ResponseEntity<Object> recoverPassword(@RequestBody Map<String, String> requestBody) {
         try {
@@ -124,16 +125,14 @@ public class UserController {
 
     @GetMapping("/stats")
     public ResponseEntity<UserStats> getStatistics(
-            @RequestParam(name = "userId", required = true) Long userId)
-    {
+            @RequestParam(name = "userId", required = true) Long userId) {
         UserStats userStats = userService.getReaderStats(userId);
         return ResponseEntity.ok(userStats);
     }
 
     @DeleteMapping("/deleteUser")
     public ResponseEntity<Object> deleteAccount(
-            @RequestParam(name = "userId", required = true) Long userId)
-    {
+            @RequestParam(name = "userId", required = true) Long userId) {
         userService.deleteUserAccount(userId);
         return ResponseEntity.ok().body("Account deleted successfully.");
     }

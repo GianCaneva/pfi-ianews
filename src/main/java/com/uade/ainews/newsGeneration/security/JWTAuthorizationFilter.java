@@ -21,6 +21,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
 
         // Permitir solicitudes OPTIONS sin autenticación (esto es importante para CORS)
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {

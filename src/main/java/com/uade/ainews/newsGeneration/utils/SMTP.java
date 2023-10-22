@@ -1,46 +1,51 @@
 package com.uade.ainews.newsGeneration.utils;
 
 
-import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class SMTP {
-    public static void sendEmail(String destinatario, String asunto, String mensaje) {
 
-        // Configura las propiedades del servidor de correo
+    public static final String UNCHAINEDNEWS_FREE_GMAIL_COM = "unchainednews.free@gmail.com";
+    public static final String GMAIL_PASSWORD = "hbil hztp nozp isui";
+
+    // Send an email with the new password
+    public static void sendEmail(String recipient, String subject, String bodyMessage) {
+
+        // Configure mail server properties
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP de Gmail
-        props.put("mail.smtp.port", "587"); // Puerto SMTP de Gmail
+        props.put("mail.smtp.host", "smtp.gmail.com"); // Gmail SMTP Server
+        props.put("mail.smtp.port", "587"); // Gmail SMTP port
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
 
 
-        // Crea una sesión de correo electrónico autenticada
+        // Create an authenticated email session
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("unchainednews.free@gmail.com", "hbil hztp nozp isui");
+                return new PasswordAuthentication(UNCHAINEDNEWS_FREE_GMAIL_COM, GMAIL_PASSWORD);
             }
         });
 
         try {
-            // Crea un objeto MimeMessage
+            // Create a MimeMessage objet
             Message message = new MimeMessage(session);
 
-            // Establece el remitente
-            message.setFrom(new InternetAddress(destinatario)); // Cambia a tu dirección de correo
+            // Set the sender
+            message.setFrom(new InternetAddress(UNCHAINEDNEWS_FREE_GMAIL_COM));
 
-            // Establece el destinatario
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
+            // Set the recipient
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
 
-            // Establece el asunto
-            message.setSubject(asunto);
+            // Set the subject
+            message.setSubject(subject);
 
-            // Establece el contenido del mensaje
-            message.setText(mensaje);
+            // Set the content of the body message
+            message.setText(bodyMessage);
 
-            // Envía el mensaje
+            // Send the message
             Transport.send(message);
 
             System.out.println("Correo electrónico enviado con éxito.");
