@@ -76,7 +76,7 @@ public class NewsService {
             }
         }
         List<SummarizedNews> summarizedNews = allCurrentNews.stream().toList();
-        return new PageImpl<>(filteredNews, pageRequest, summarizedNews.size());
+        return new PageImpl<>(filteredNews, pageRequest, allCurrentNews.getTotalElements());
     }
 
     // Calculate the number of news items per section (every 10 news items) to be displayed to the user.

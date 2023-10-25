@@ -52,11 +52,11 @@ Este valor está conformado de la siguiente forma `Bearar {TOKEN}`. Es el TOKEN 
 
 ## Cloud
 
-El presente servicio se encuentra desplegado en un servicio cloud de Google (Google Cloud), el cual se puede acceder a través del siguiente link.
+El presente servicio se encuentra desplegado en un servicio cloud de Google (Google Cloud Platform), el cual se puede acceder a través del siguiente link.
 
 `https://service-app-dot-unchainednews.rj.r.appspot.com`
 
-
+Se puede consultar el estado de la aplicación consultando la dirección `/free/news/healthcheck`
 ## Autores
 Caneva, Gianfranco
 

@@ -43,4 +43,14 @@ public class NewsController {
         Page<SummarizedNews> newsPage = newsService.getNewsBySection(userId, section, pageRequest);
         return ResponseEntity.ok(newsPage);
     }
+
+    // Endpoint to test the connection
+    @GetMapping("/healthcheck")
+    public ResponseEntity<Object> login() {
+        try {
+            return ResponseEntity.ok("Unchained News application (middleware) is up on Google Cloud Platform successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
