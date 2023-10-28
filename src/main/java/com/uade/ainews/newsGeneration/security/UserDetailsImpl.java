@@ -13,6 +13,7 @@ import java.util.Collections;
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
@@ -48,7 +49,7 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-    public String getNombre(){
+    public String getNombre() {
         return user.getEmail();
     }
 }

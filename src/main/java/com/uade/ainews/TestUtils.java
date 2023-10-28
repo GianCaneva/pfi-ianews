@@ -9,15 +9,15 @@ import java.util.List;
 
 public class TestUtils {
 
-    public static News createNews(){
-        List<String> keywords1 = new LinkedList<String>(Arrays.asList("A", "B", "C", "D", "E"));
-        LocalDateTime date= LocalDateTime.now();
+    public static News createNews() {
+        List<String> keywords1 = new LinkedList<>(Arrays.asList("A", "B", "C", "D", "E"));
+        LocalDateTime date = LocalDateTime.now();
         return News.builder().url("aURL").keywords(keywords1).section("aSection").title("aTitle").article("anArticle").releaseDate(date).build();
     }
 
-    public static News createNewsWithLongContent(){
-        List<String> keywords1 = new LinkedList<String>(Arrays.asList("A", "B", "C", "D", "E"));
-        LocalDateTime date= LocalDateTime.now();
+    public static News createNewsWithLongContent() {
+        List<String> keywords1 = new LinkedList<>(Arrays.asList("A", "B", "C", "D", "E"));
+        LocalDateTime date = LocalDateTime.now();
         return News.builder()
                 .url("https://www.perfil.com/noticias/bloomberg/bc-radicalismo-de-milei-no-es-lo-que-argentina-necesita.phtml")
                 .keywords(keywords1)

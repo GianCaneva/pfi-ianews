@@ -11,8 +11,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
+
 public class SummarizeArticle {
 
+    // Call Python external service to summarize an article
     public static String sumUp(String message, Integer textExtension) {
         String summary = "";
         try {
@@ -28,7 +30,7 @@ public class SummarizeArticle {
 
 
     public static String sendTextViaRest(String text, Integer textExtension, String restUrl) throws IOException {
-        // Construir la URL con el parámetro textExtension
+        // Build URL with textExtension parameter
         String urlWithParams = restUrl + "?textExtension=" + textExtension;
         URL url = new URL(urlWithParams);
 
@@ -54,7 +56,7 @@ public class SummarizeArticle {
             while ((line = br.readLine()) != null) {
                 response.append(line);
             }
-            return response.toString().substring(1, response.length()-1);
+            return response.toString().substring(1, response.length() - 1);
         }
     }
 

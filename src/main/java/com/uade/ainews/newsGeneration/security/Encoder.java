@@ -1,4 +1,5 @@
 package com.uade.ainews.newsGeneration.security;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class Encoder extends BCryptPasswordEncoder {

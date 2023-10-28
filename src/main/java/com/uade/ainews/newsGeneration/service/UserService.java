@@ -4,6 +4,7 @@ import com.uade.ainews.newsGeneration.dto.User;
 import com.uade.ainews.newsGeneration.dto.UserStats;
 import com.uade.ainews.newsGeneration.repository.UserRepository;
 import com.uade.ainews.newsGeneration.security.Encoder;
+import com.uade.ainews.newsGeneration.utils.SMTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
+
 
 @Service
 public class UserService {
@@ -22,20 +25,24 @@ public class UserService {
     public static final int MAX_INTEREST_VALUE = 100;
     ///////////////////////////////////////////////////////////////////////////
 
-    public void addInterest(String userEmail, String section, Integer amountOfExtraInterest) {
-        getUserInterestInSection(getSpecificUser(userEmail), section, amountOfExtraInterest);
+    // Adding interest to a user for a specific section
+    public void addInterest(Long userId, String section, Integer amountOfExtraInterest) {
+        getUserInterestInSection(getSpecificUserById(userId), section, amountOfExtraInterest);
     }
 
+    // Register a new user to the system
     public void registerUser(String email, String password) {
         // Check if the mail already exists
         if (userRepository.findByEmail(email) == null) {
+            User newUser = new User(email, password);
             // Encoding the password before storing it in the database
-            userRepository.save(User.builder().email(email).password(password).build());
+            userRepository.save(newUser);
         } else {
             throw new RuntimeException("The email is already registered!");
         }
     }
 
+    // Return all user stored on the database
     public ResponseEntity<List<User>> getAllUser() {
         List<User> users = userRepository.findAll();
         if (!users.isEmpty()) {
@@ -45,16 +52,23 @@ public class UserService {
         }
     }
 
-    public User getSpecificUser(String email) {
+    // Return a user from the database by his email
+    public User getSpecificUserByEmail(String email) {
         return userRepository.findOneByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found: " + email));
     }
 
+    // Return a user from the database by his id
+    public User getSpecificUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User id found: " + userId));
+    }
+
+
     private void getUserInterestInSection(User reader, String section, Integer amountOfExtraInterest) {
-        switch (section){
+        switch (section) {
             case "POLITICS":
                 Integer politicsInterest = reader.getPoliticsInterest();
                 politicsInterest = politicsInterest + amountOfExtraInterest;
-                if(politicsInterest > MAX_INTEREST_VALUE) {
+                if (politicsInterest > MAX_INTEREST_VALUE) {
                     politicsInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setPoliticsInterest(politicsInterest);
@@ -62,7 +76,7 @@ public class UserService {
             case "ECONOMY":
                 Integer economyInterest = reader.getEconomyInterest();
                 economyInterest = economyInterest + amountOfExtraInterest;
-                if(economyInterest > MAX_INTEREST_VALUE) {
+                if (economyInterest > MAX_INTEREST_VALUE) {
                     economyInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setEconomyInterest(economyInterest);
@@ -70,7 +84,7 @@ public class UserService {
             case "SPORTS":
                 Integer sportsInterest = reader.getSportsInterest();
                 sportsInterest = sportsInterest + amountOfExtraInterest;
-                if(sportsInterest > MAX_INTEREST_VALUE) {
+                if (sportsInterest > MAX_INTEREST_VALUE) {
                     sportsInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setSportsInterest(sportsInterest);
@@ -78,7 +92,7 @@ public class UserService {
             case "SOCIAL":
                 Integer socialInterest = reader.getSocialInterest();
                 socialInterest = socialInterest + amountOfExtraInterest;
-                if(socialInterest > MAX_INTEREST_VALUE) {
+                if (socialInterest > MAX_INTEREST_VALUE) {
                     socialInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setSocialInterest(socialInterest);
@@ -86,7 +100,7 @@ public class UserService {
             case "INTERNATIONAL":
                 Integer internationalInterest = reader.getInternationalInterest();
                 internationalInterest = internationalInterest + amountOfExtraInterest;
-                if(internationalInterest > MAX_INTEREST_VALUE) {
+                if (internationalInterest > MAX_INTEREST_VALUE) {
                     internationalInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setInternationalInterest(internationalInterest);
@@ -94,7 +108,7 @@ public class UserService {
             case "POLICE":
                 Integer policeInterest = reader.getPoliceInterest();
                 policeInterest = policeInterest + amountOfExtraInterest;
-                if(policeInterest > MAX_INTEREST_VALUE) {
+                if (policeInterest > MAX_INTEREST_VALUE) {
                     policeInterest = MAX_INTEREST_VALUE;
                 }
                 reader.setPoliceInterest(policeInterest);
@@ -105,16 +119,18 @@ public class UserService {
         userRepository.save(reader);
     }
 
-    public void subscribeNewsletter(String email) {
-        User specificUser = getSpecificUser(email);
-        specificUser.setNewsletter(true);
+    // Subscribe a user to the newsletter
+    public void subscribeNewsletter(Long userId) {
+        User specificUser = getSpecificUserById(userId);
+        specificUser.setNewsletter("Y");
         userRepository.save(specificUser);
     }
 
-    public void updateLectureTimeForUser(String email, String section, BigDecimal lastReadTime) {
-        User reader = getSpecificUser(email);
+    // After a user spent time reading an article, include that time per section in his daily average
+    public void updateLectureTimeForUser(Long userId, String section, BigDecimal lastReadTime) {
+        User reader = getSpecificUserById(userId);
 
-        switch (section){
+        switch (section) {
             case "POLITICS":
                 BigDecimal politicsTime = reader.getPoliticsTime();
                 politicsTime = (politicsTime.add(lastReadTime)).divide(BigDecimal.valueOf(2));
@@ -151,19 +167,21 @@ public class UserService {
         userRepository.save(reader);
     }
 
-    public void changeUserPassword(String email, String oldPassword, String newPassword) {
-        User specificUser = getSpecificUser(email);
+    // Change password
+    public void changeUserPassword(Long userId, String currentPassword, String newPassword) {
+        User specificUser = getSpecificUserById(userId);
         Encoder encoder = Encoder.getInstance();
-        if (encoder.matches(oldPassword, specificUser.getPassword())) {
+        if (encoder.matches(currentPassword, specificUser.getPassword())) {
             specificUser.setPassword(newPassword);
             userRepository.save(specificUser);
         } else {
-            throw new RuntimeException("Invalid Password. Please, retry");
+            throw new RuntimeException("Invalid Username or Password. Please, retry");
         }
     }
 
-    public UserStats getReaderStats(String userEmail) {
-        User specificUser = getSpecificUser(userEmail);
+    // Retrieve all interest and reading time for an specific user
+    public UserStats getReaderStats(Long userId) {
+        User specificUser = getSpecificUserById(userId);
         return UserStats.builder()
                 .politicsInterest(specificUser.getPoliticsInterest())
                 .politicsTime(specificUser.getPoliticsTime())
@@ -180,6 +198,7 @@ public class UserService {
                 .build();
     }
 
+    // Permanently delete user account
     public ResponseEntity<String> deleteUserAccount(Long userId) {
         try {
             // Checks if there is a user with that Id on database
@@ -194,4 +213,41 @@ public class UserService {
             return ResponseEntity.badRequest().body("Error deleting user");
         }
     }
+
+    // Update user's interest section
+    public void updateInterestSection(Long userId,
+                                      int politicsSectionInterest,
+                                      int economySectionInterest,
+                                      int sportsSectionInterest,
+                                      int socialSectionInterest,
+                                      int internationalSectionInterest,
+                                      int policeSectionInterest) {
+        User specificUserById = getSpecificUserById(userId);
+        specificUserById.setPoliticsInterest(politicsSectionInterest);
+        specificUserById.setEconomyInterest(economySectionInterest);
+        specificUserById.setSportsInterest(sportsSectionInterest);
+        specificUserById.setSocialInterest(socialSectionInterest);
+        specificUserById.setInternationalInterest(internationalSectionInterest);
+        specificUserById.setPoliceInterest(policeSectionInterest);
+        userRepository.save(specificUserById);
+    }
+
+    // Steps to retrieve password
+    public void recoverPassword(String email) {
+        User specificUser = getSpecificUserByEmail(email);
+        Encoder encoder = Encoder.getInstance();
+        Random random = new Random();
+        String newPassword = String.valueOf(random.nextInt(900000) + 100000);
+        specificUser.setPassword(encoder.encode(newPassword));
+        userRepository.save(specificUser);
+        //send email with the new password
+
+        String asunto = "Reset your password";
+        String mensaje = "Your new password is:" + newPassword;
+
+        SMTP.sendEmail(email, asunto, mensaje);
+
+    }
+
+
 }

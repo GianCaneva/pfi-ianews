@@ -1,10 +1,10 @@
 package com.uade.ainews.newsGeneration.dto;
 
 
-
 import lombok.*;
 
 import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Builder

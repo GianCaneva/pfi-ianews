@@ -11,7 +11,7 @@
     <groupId>com.uade</groupId>
     <artifactId>ainews</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ainews</name>
+    <name>UnchainedNews</name>
     <description>Final project</description>
     <properties>
         <java.version>17</java.version>
@@ -79,6 +79,20 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Email -->
+        <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
 
         <!-- SECURITY -->
         <!-- SECURITY -->

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 
 @Repository
-public interface NewsRepository extends JpaRepository <SummarizedNews, Long>{
+public interface NewsRepository extends JpaRepository<SummarizedNews, Long> {
 
     @Query("SELECT s FROM sumnews s WHERE s.releaseDate >= :twentyFourHoursAgo")
     Page<SummarizedNews> findAllCreatedWithinLast24Hours(LocalDateTime twentyFourHoursAgo, Pageable pageable);
