@@ -20,7 +20,7 @@ Además, el servicio de Python debe estar inicializado y ejecutándose correctam
 
 ## Instalación
 
-Use la librería de Maven para asegurarse para instalar las dependencias necesarias mediante el comando a continuación.
+Agregar el proyecto al scope de la librería de Maven, para asegurarse para instalar las dependencias necesarias mediante el comando a continuación.
 
 ```bash
 mvn clean install
