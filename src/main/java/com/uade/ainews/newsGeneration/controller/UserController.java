@@ -130,7 +130,7 @@ public class UserController {
         return ResponseEntity.ok(userStats);
     }
 
-    @DeleteMapping("/deleteUser")
+    @PostMapping("/deleteUser")
     public ResponseEntity<Object> deleteAccount(
             @RequestParam(name = "userId", required = true) Long userId) {
         userService.deleteUserAccount(userId);
